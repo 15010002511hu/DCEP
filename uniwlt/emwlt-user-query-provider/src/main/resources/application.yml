@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: user-management
+
+nacos:
+  config:
+    server-addr: config.nacos.testemop:8848
+    namespace: 1711ba14-b569-4dda-baa2-892508733a01
+    username: emodev_nacos
+    password: Dcep_NacosCwj
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      db-type: mysql
+    banner: false
+
+
+dubbo:
+  provider:
+    #超时时间
+    timeout: 5000
+    #重试次数,如果重试次数大于0,调用方必须保证幂等性。
+    retries: 0
+    validation: false
+  consumer:
+    check: false
+    retries: 0
+    timeout: 10000
+  application:
+    id: ${spring.application.name}
+    name: ${spring.application.name}
+    #dubbo动态控制、查询服务
+    qosEnable: false
+  #dubbo的包扫描，针对@Service @Reference注解
+  scan:
+    basePackages: com.dcep.uniwlt.user.management.*
+  #服务注册中心配置
+  registry:
+    id: my-registry
+    protocol: nacos
+    address: 172.21.73.51:8858?username=nacos&password=nacos
+    use-as-config-center: false
+    use-as-metadata-center: false
+  #服务协议配置
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+    #缺省值 all,表示所有消息都派发到线程池，包括请求、响应、连接事件、断开事件、心跳等
+    dispatcher: all
+    #缺省值 fixed，表示固定大小线程池，启动时建立线程，不关闭，一直持有。
+    #可选值cached，缓存线程池，空闲一分钟自动删除，需要时重建。
+    threadpool: fixed
+    #服务线程池大小，默认值200
+    threads: 800

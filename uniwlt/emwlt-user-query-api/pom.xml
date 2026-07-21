@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.emop.wlt</groupId>
+    <artifactId>emwlt-user-query</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>emwlt-user-query-api</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.emop</groupId>
+      <artifactId>ldc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.emop</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.emop.wlt</groupId>
+      <artifactId>emwlt-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.emop.wlt</groupId>
+      <artifactId>emwlt-db-user-entity</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.emop.gateway</groupId>
+      <artifactId>super-gateway-dto-emap</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.emop.wlt</groupId>
+      <artifactId>emwlt-emap</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.emop.gateway</groupId>
+      <artifactId>super-gateway-spi-sdk</artifactId>
+    </dependency>
+
+  </dependencies>
+
+
+</project>
