@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.emop.wlt</groupId>
+        <artifactId>emwlt-user-management</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>emwlt-user-management-provider</artifactId>
+
+    <properties>
+        <skip_maven_deploy>false</skip_maven_deploy>
+        <skip_source>false</skip_source>
+        <skip_jacoco>false</skip_jacoco>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.emop</groupId>
+            <artifactId>ldc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-mpaas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-aspect-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-user-management-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-message-push-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-emap</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-aspect-app</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mpaas.gateway</groupId>
+            <artifactId>mpaasgw-unify-spi-adapter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-captcha</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-id-db</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-db-user-entity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-db-user-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-encrypt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop</groupId>
+            <artifactId>data-security-encrypt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-user-info-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-flow-manager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-redis-manager</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-user-wallet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-ifaa-manager</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop</groupId>
+            <artifactId>infocache-api</artifactId>
+        </dependency>
+
+        <!-- 密码盐相关依赖 强引用 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cfca</groupId>
+            <artifactId>dctools</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cfca</groupId>
+            <artifactId>sadk</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.emop.wlt</groupId>
+            <artifactId>emwlt-gateway-manager</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>emwlt-user-management</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
