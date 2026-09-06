@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.dcep.supergw</groupId>
+    <artifactId>supergw</artifactId>
+    <version>${revision}</version>
+  </parent>
+  <artifactId>supergw-api</artifactId>
+  <name>supergw-api</name>
+  <url>http://maven.apache.org</url>
+  <description>网关api层，给别人引用做dubbo调用</description>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+        <dependency>
+            <groupId>com.dcep</groupId>
+		  <artifactId>common</artifactId>
+        </dependency>
+	    <dependency>
+	        <groupId>com.dcep</groupId>
+	        <artifactId>ldc</artifactId>
+	    </dependency>
+        <dependency>      
+			<groupId>com.dcep.supergw</groupId>
+			<artifactId>supergw-dto</artifactId>
+        </dependency>
+  </dependencies>
+
+</project>

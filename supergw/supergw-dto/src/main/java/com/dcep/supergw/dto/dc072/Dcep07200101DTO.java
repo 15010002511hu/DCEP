@@ -1,0 +1,61 @@
+package com.dcep.supergw.dto.dc072;
+
+import com.dcep.common.annotation.Gateway;
+import com.dcep.common.model.GwDTO;
+import com.dcep.common.model.soap.GrpHdr;
+import com.dcep.common.model.soap.OrgnlGrpHdr;
+import com.dcep.common.model.soap.SoapHeader;
+import com.dcep.common.utils.CheckUtils;
+import com.dcep.common.validator.Priority;
+import com.dcep.infocache.validation.CheckGrpHdrMsgId;
+import com.dcep.infocache.validation.CheckGrpHdrOrgId;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.io.Serializable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+@Gateway(msgTp = "dcep.072.001.01", isReturn = true)
+@JacksonXmlRootElement(localName = "MsgAuthRsp", namespace = "http://www.dcep.com/dcep/07100201/")
+public class Dcep07200101DTO extends GwDTO implements Serializable {
+
+    @NotNull
+    @Valid
+    @CheckGrpHdrOrgId(groups = Priority.Lowest.class)
+    @CheckGrpHdrMsgId(groups = Priority.Lowest.class)
+    @JacksonXmlProperty(localName = "GrpHdr")
+    GrpHdr grpHdr;
+
+
+    @NotNull
+    @Valid
+    @JacksonXmlProperty(localName = "OrgnlGrpHdr")
+    OrgnlGrpHdr orgnlGrpHdr;
+
+    @NotNull
+    @Valid
+    @JacksonXmlProperty(localName = "RspnInf")
+    RspnInf rspnInf;
+
+    @Valid
+    @JacksonXmlProperty(localName = "MsgInf")
+    MsgInf msgInf;
+
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public String fetchMsgId() {
+        return grpHdr.getMsgId();
+    }
+
+    @Override
+    public boolean check(SoapHeader header) {
+        return CheckUtils.responseMsgChk(header, grpHdr, orgnlGrpHdr);
+    }
+}

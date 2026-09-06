@@ -1,0 +1,134 @@
+#spring
+spring:
+  application:
+    name: dcfluxgw
+# ServerProperties 类
+server: 
+  port: 8080
+  connectionTimeout:  60000
+  undertow:
+    io-threads: 8
+    worker-threads: 64
+    buffer-size: 1024
+    direct-buffers: true
+   # accesslog:
+  #    dir:  #Undertow访问日志目录。
+ #     enabled: ＃是否启用访问日志。
+    #  pattern: ＃访问日志的格式模式。
+    #  prefix: ＃日志文件名前缀。
+   #   rotate: ＃启用访问日志轮换。
+   #   suffix: ＃日志文件名后缀。
+  #  eager-filter-init: #启动后是否立马初始化 servlet 过滤器
+    max-http-post-size: 1000000 #HTTP内容的最大字节数。
+dubbo:
+  provider:
+    #超时时间
+    timeout: 1000
+    #重试次数,如果重试次数大于0,调用方必须保证幂等性。
+    retries: 0
+    filter: providerRpcLogFilter
+  consumer:
+    #超时时间
+    timeout: 1000
+    #检查提供者是否存在
+    check: false   
+    #负载均衡策略
+    loadbalance: leastactive
+    filter: consumerAddAttachmentsFilter
+  service:
+    version: 1.0
+  application:
+    id: dcfluxgw
+    name: dcfluxgw
+    #dubbo动态控制、查询服务
+    qos:
+    qosPort: 22223
+    qosEnable: true
+  #dubbo的包扫描，针对@Service @Reference注解    
+  scan:
+    basePackages: com.dcep.supergw.*
+  #服务注册中心配置
+  registry:
+    id: my-registry
+    protocol: nacos
+    address: 192.168.20.23:8848
+  #服务协议配置
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+    #缺省值 all,表示所有消息都派发到线程池，包括请求、响应、连接事件、断开事件、心跳等
+    dispatcher: all
+    #缺省值 fixed，表示固定大小线程池，启动时建立线程，不关闭，一直持有。
+    #可选值cached，缓存线程池，空闲一分钟自动删除，需要时重建。
+    threadpool: fixed
+    #服务线程池大小，默认值200
+    threads: 80
+    iothreads: 40
+
+#LDC路由
+ldc:
+  zmode: false
+
+nacos:
+  config:
+    server-addr: 192.168.20.23:8848
+    namespace: 1711ba14-b569-4dda-baa2-892508733a01
+sentinel:
+   groupId: DEFAULT_GROUP
+   dataId: flow.rule
+#Https设置
+https:
+  #超时时间
+  timeout:
+    connectionRequest: 500
+    connection: 500
+    socket: 3000
+  #线程池
+  pool:
+    maxConnectionsPerHost: 80
+    maxTotalConnections: 480
+  #失效线程清理
+  evictor:
+    sleepTime: 5
+    maxIdleTime: 5
+  #证书
+  cert:
+    keystore: my.keystore
+    password: 12345
+  #代理
+  proxy:
+    host: 172.16.40.64
+    port: 443
+  #协议
+  protocol: 
+    ssl: TLSv1.2
+    
+#正向代理
+nginx:
+  #探活周期 1分钟
+  cycle: 1
+  #告警阈值 2分钟
+  alert: 2
+  #IDC的正向代理地址
+  idc: "{CZ01:'127.0.0.1'}"
+  #端口
+  port: 20000
+
+############# config test start
+hyj:
+  name: huyajun
+  age: 123
+  cars:
+  - bmw
+  - aod
+  - toyoto
+  - 'volvo \n'
+  - "HYUNDAI \n Kia"
+  player: [王者荣耀,吃鸡,塔防]
+  frends: {lishifeng: aaaaa,juelun: bbbb,pd: cccc,yh: ddddd}
+
+
+school:  网络一班
+location: 北京
+#######################

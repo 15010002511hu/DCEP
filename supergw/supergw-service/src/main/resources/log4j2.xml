@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--设置log4j2的自身log级别为warn -->
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置， 当设置成trace时，你会看到log4j2内部各种详细输出 -->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
+<configuration status="info" monitorInterval="30">
+    <!-- 变量配置 -->
+    <Properties>
+        <Property name="log_path">/applog/gw</Property>
+        <Property name="log_path_archive">${log_path}/archive</Property>
+        <!-- <Property name="log_pattern">[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p]#[msgSn:%X{msgSn}]#%m#[%t]%n</Property> -->
+        <Property name="log_pattern">%d{yyyy-MM-dd.HH:mm:ss.SSS} [%-10t] %-5p %-22c{1} [msgSn:%X{msgSn}] [traceId:%X{traceId}] [spanId:%X{spanId}] - %m%n
+        </Property>
+        <Property name="digest_log_pattern">[%d{yyyy-MM-dd HH:mm:ss:SSS}] %m%n
+        </Property>
+        <Property name="local_log_path">${log_path}/messageLog</Property>
+    </Properties>
+    <!--先定义所有的appender -->
+    <appenders>
+        <!--这个输出控制台的配置 -->
+        <console name="Console" target="SYSTEM_OUT">
+            <!--输出日志的格式 -->
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Filters>
+                <!--  only info
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO"   onMismatch="DENY"/>-->
+
+                <!--  only warn
+                <ThresholdFilter level="WARN"  onMatch="NEUTRAL" onMismatch="DENY" />
+                 <ThresholdFilter level="ERROR" onMatch="DENY"    onMismatch="ACCEPT"/> -->
+
+            </Filters>
+        </console>
+        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size， 则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+        <RollingFile name="RollingFileInfo" fileName="${log_path}/info.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/info-%d{yyyyMMdd}-%i.log.zip" immediateFlush="false">
+            <Filters>
+                <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <!-- 删除30天之前的日志 DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了2000 -->
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="RollingFileDebug" fileName="${log_path}/debug.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/debug-%d{yyyyMMdd}-%i.log.zip" immediateFlush="false">
+            <Filters>
+                <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <!-- 删除30天之前的日志 DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了2000 -->
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.debug.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="RollingFileWarn" fileName="${log_path}/warn.log" bufferedIO="true" bufferSize="32768"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/warn-%d{yyyyMMdd}-%i.log.zip" immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="NEUTRAL" onMismatch="DENY"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"
+                                     compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="RollingFileError" fileName="${log_path}/error.log" bufferedIO="true" bufferSize="32768"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/error-%d{yyyyMMdd}-%i.log.zip" immediateFlush="false">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"
+                                     compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!--信息缓存信息日志存储-->
+        <RollingFile name="RollingFileServerCache"
+                     fileName="${log_path}/cache-info.log"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/cache-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT"
+                                 onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000"
+                                     compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 人行日志存储 -->
+        <RollingFile name="PBOCInfo" fileName="${local_log_path}/pboc.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/pboc-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 工行日志存储 -->
+        <RollingFile name="ICBCInfo" fileName="${local_log_path}/icbc.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/icbc-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 建行日志存储 -->
+        <RollingFile name="CCBInfo" fileName="${local_log_path}/ccb.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/ccb-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 农行日志存储 -->
+        <RollingFile name="ABCInfo" fileName="${local_log_path}/abc.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/abc-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 中行日志存储 -->
+        <RollingFile name="BOCInfo" fileName="${local_log_path}/boc.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/boc-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 蚂蚁金服日志存储 -->
+        <RollingFile name="AntInfo" fileName="${local_log_path}/ant.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/ant-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 腾讯日志存储 -->
+        <RollingFile name="TencentInfo" fileName="${local_log_path}/tencent.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/tecent-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 邮储 -->
+        <RollingFile name="PSBCInfo" fileName="${local_log_path}/psbc.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/psbc-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 招商 -->
+        <RollingFile name="CMBInfo" fileName="${local_log_path}/cmb.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/cmb-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 交通 -->
+        <RollingFile name="BCMInfo" fileName="${local_log_path}/bcm.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/bcm-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 兴业银行日志存储 -->
+        <RollingFile name="CIBInfo" fileName="${local_log_path}/cib.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/cib-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 默认报文日志文件 -->
+        <RollingFile name="DefaultInfo" fileName="${local_log_path}/default.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${local_log_path}/$${date:yyyy-MM-dd}/default-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${local_log_path}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- Channel日志存储 -->
+        <RollingFile name="ChannelInfo" fileName="${log_path}/channel.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/channel-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 摘要日志存储 -->
+        <RollingFile name="DigestInfo" fileName="${log_path}/rpc-server-digest.log" append="true" bufferedIO="true"
+                     bufferSize="32768"
+                     filePattern="${log_path_archive}/$${date:yyyy-MM-dd}/digest-%d{yyyyMMdd}-%i.log.zip"
+                     immediateFlush="false">
+            <Filters>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${digest_log_pattern}" charset="UTF-8"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="400 MB"/>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2000" compressionLevel="1">
+                <Delete basePath="${log_path_archive}" maxDepth="5">
+                    <IfFileName glob="*/*.log.zip"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <CustomerLog4j2Appender name="CustomerLog4j2Appender">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="${log_pattern}" charset="UTF-8"/>
+        </CustomerLog4j2Appender>
+    </appenders>
+
+
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+    <loggers>
+        <!--过滤掉spring和hibernate的一些无用的debug信息 -->
+        <logger name="org.springframework" level="INFO">
+        </logger>
+        <logger name="org.mybatis" level="INFO">
+        </logger>
+        <!--打印test包下的debug 信息 -->
+        <logger name="com.alibaba.nacos" level="info">
+        </logger>
+
+        <logger name="com.dcep.infocache" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="RollingFileServerCache"/>
+        </logger>
+
+        <logger name="001000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="PBOCInfo"/>
+        </logger>
+
+        <logger name="002000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="ICBCInfo"/>
+        </logger>
+
+        <logger name="005000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="CCBInfo"/>
+        </logger>
+
+        <logger name="003000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="ABCInfo"/>
+        </logger>
+
+        <logger name="004000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="BOCInfo"/>
+        </logger>
+
+        <logger name="007000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="AntInfo"/>
+        </logger>
+
+        <logger name="006000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="TencentInfo"/>
+        </logger>
+
+        <logger name="008000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="PSBCInfo"/>
+        </logger>
+
+        <logger name="009000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="BCMInfo"/>
+        </logger>
+
+        <logger name="010000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="CMBInfo"/>
+        </logger>
+
+        <logger name="011000" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="CIBInfo"/>
+        </logger>
+
+        <Logger name="default" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="DefaultInfo"/>
+        </Logger>
+
+        <!--记录AbstractChannel和AbstractAction类中的日志-->
+        <logger name="channel" level="error" additivity="false" includeLocation="false">
+            <appender-ref ref="ChannelInfo"/>
+        </logger>
+
+        <!-- 记录ChannelContext类中的日志 -->
+        <logger name="com.dcep.supergw.manager.bo.ChannelContext" level="error" additivity="false"
+                includeLocation="false">
+            <appender-ref ref="ChannelInfo"/>
+        </logger>
+
+        <!--记录摘要(调用对方dubbo服务)日志-->
+        <logger name="digest" level="info" additivity="false" includeLocation="false">
+            <appender-ref ref="DigestInfo"/>
+        </logger>
+
+        <!--<logger name="com.dcep.infocache" level="error"> -->
+
+        <!-- <appender-ref ref="Console" /> -->
+        <!--<appender-ref ref="RollingFileDebug" />-->
+        <!--</logger>-->
+
+
+        <root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileInfo"/>
+            <AppenderRef ref="RollingFileWarn"/>
+            <AppenderRef ref="RollingFileError"/>
+            <AppenderRef ref="CustomerLog4j2Appender"/>
+        </root>
+        
+    </loggers>
+
+</configuration>

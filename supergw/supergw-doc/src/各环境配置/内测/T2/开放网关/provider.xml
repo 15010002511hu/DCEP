@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://dubbo.apache.org/schema/dubbo
+	http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+	<bean id="openHttpClientService" class="com.dcep.supergw.service.impl.OpenHttpClientServiceImpl"/>
+	<dubbo:service interface="com.dcep.supergw.api.OpenHttpClientService" ref="openHttpClientService" group="opendcep"
+                   timeout="3000" version="1.0.0">
+        <dubbo:method name="send"/>
+    </dubbo:service>
+	
+</beans>

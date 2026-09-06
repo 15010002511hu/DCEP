@@ -1,0 +1,36 @@
+package com.dcep.supergw.manager.channel.action;
+
+import com.dcep.supergw.common.utils.SerializationUtil;
+import com.dcep.supergw.core.ChannelContext;
+import com.dcep.supergw.core.action.AbstractAction;
+import com.dcep.supergw.core.constant.Contexts;
+
+/**
+ * 序列化流程 1、正常为序列化 2、反向为反序列化 3、需自定义序列化工具，并传入Action中，后续改为Java SPI方式获取
+ */
+
+public class SerializationAction<T> extends AbstractAction {
+
+    private final SerializationUtil<T> util;
+
+    public SerializationAction(SerializationUtil<T> util) {
+        super("SerializationAction");
+        this.util = util;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void doInvoke(ChannelContext ctx) {
+        ctx.setAttachment(Contexts.SERIALIZATION, util.serialization((T) ctx.getAttachment(Contexts.DESERIALIZATION)));
+        ctx.fireInvokeCallBack();
+    }
+
+    @Override
+    public void doCallBack(ChannelContext ctx) {
+        ctx.setAttachment(Contexts.DESERIALIZATION,
+            util.deserialization((String) ctx.getAttachment(Contexts.SERIALIZATION),
+                (Class<?>) ctx.getAttachment(Contexts.DTO_CLASS)));
+        ctx.fireInvokeAction();
+    }
+
+}

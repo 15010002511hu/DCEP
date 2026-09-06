@@ -1,0 +1,2 @@
+providerRpcLogFilter=com.dcep.supergw.manager.dubbo.filter.ProviderRpcLogFilter
+providerFlowFilter=com.dcep.supergw.manager.dubbo.filter.ProviderFlowFilter

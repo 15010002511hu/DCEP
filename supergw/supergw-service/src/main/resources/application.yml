@@ -1,0 +1,162 @@
+#spring
+spring:
+  application:
+    name: dcfluxgw
+
+#Undertow
+server:
+  port: 8081
+  connectionTimeout:  80000
+  undertow:
+    io-threads: 8
+    worker-threads: 64
+    buffer-size: 1024
+    direct-buffers: true
+    # accesslog:
+    #    dir:  #Undertow访问日志目录。
+    #     enabled: ＃是否启用访问日志。
+    #  pattern: ＃访问日志的格式模式。
+    #  prefix: ＃日志文件名前缀。
+    #   rotate: ＃启用访问日志轮换。
+    #   suffix: ＃日志文件名后缀。
+    #  eager-filter-init: #启动后是否立马初始化 servlet 过滤器
+    max-http-post-size: 1000000 #HTTP内容的最大字节数。
+
+#Web容器
+servlet:
+  async:
+    timeout: 7000
+
+#RPC
+dubbo:
+  provider:
+    #超时时间
+    timeout: 3000
+    #重试次数,如果重试次数大于0,调用方必须保证幂等性。
+    retries: 0
+    tag: STABLE-CZ01-B
+  consumer:
+    #超时时间
+    timeout: 3000
+    #检查提供者是否存在
+    check: false
+    #负载均衡策略
+    loadbalance: roundrobin
+    filter: consumerAddAttachmentsFilter
+  service:
+    version: 1.0
+  application:
+    id: dcfluxgw
+    name: dcfluxgw
+    #dubbo动态控制、查询服务
+    qos:
+    qosPort: 22223
+    qosEnable: true
+  #dubbo的包扫描，针对@Service @Reference注解    
+  scan:
+    basePackages: com.dcep.supergw.*
+  #服务注册中心配置
+  registry:
+    id: my-registry
+    protocol: nacos
+    address: 172.19.68.20:8858,172.19.68.22:8858,172.19.68.23:8858?username=szdev_nacos&password=hVPHCDzutfL6m
+  #服务协议配置
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+    #缺省值 all,表示所有消息都派发到线程池，包括请求、响应、连接事件、断开事件、心跳等
+    dispatcher: all
+    #缺省值 fixed，表示固定大小线程池，启动时建立线程，不关闭，一直持有。
+    #可选值cached，缓存线程池，空闲一分钟自动删除，需要时重建。
+    threadpool: fixed
+    #服务线程池大小，默认值200
+    threads: 200
+
+#LDC路由
+ldc:
+  zmode: true
+
+#配置中心
+nacos:
+  config:
+    server-addr: 172.19.68.17:8848,172.19.68.18:8848,172.19.68.19:8848
+    namespace: 1711ba14-b569-4dda-baa2-892508733a01
+    username: szdev_nacos
+    password: hVPHCDzutfL6m
+
+#限流熔断
+sentinel:
+  groupId: DEFAULT_GROUP
+  dataId:
+    flow: supergw.flow.rule
+    degrade: supergw.degrade.rule
+
+#Channel线程池大小参数
+channel:
+  poolsize:
+    clearing: 10
+    directForward: 5
+    centralProcess: 5
+    agencyProcess: 1
+    cooperateBank: 5
+    authorization: 2
+
+#Https设置
+https:
+  #超时时间
+  timeout:
+    connectionRequest: 500
+    connection: 500
+    socket: 7000
+  #线程池
+  pool:
+    maxConnectionsPerHost: 5000
+    maxTotalConnections: 5000
+  #失效线程清理
+  evictor:
+    sleepTime: 10
+    maxIdleTime: 50
+  #证书
+  cert:
+    keystore: my.keystore
+  #代理
+  proxy:
+    host: 172.16.40.64
+    port: 443
+  #协议
+  protocol:
+    ssl: TLSv1.2
+
+#个性化配置
+beans:
+  #config 中的bean
+  config: DubboConfig,InfoCacheConfig,LdcConfig,NginxProbe,UndertowWithoutTraceConfig
+  #channel中的bean
+  channel: AgencyProcessChannel,CentralProcessChannel,ClearingChannel,DirectForwardChannel,OpenDownstreamChannel,OpenRequestChannel,OpenUpstreamChannel,CooperateBankChannel
+  #controller中的bean
+  controller: MainController,OpenController,ExploringController
+  #对外提供的服务接口，dubbo中的bean为主，以及GwinServiceImpl
+  service: GwinServiceImpl,GwoutServiceImpl,HttpClientServiceImpl,BeansCondition
+
+#服务扫描
+dto:
+  packages: com.dcep
+
+#infocache配置
+infocache:
+  cachetype: org_cache,cert_cache,dcep_cache,messagepermission_cache,batch_cache,biz_relation_cache
+
+#将actuator换成根路径
+management:
+  endpoints:
+    web:
+      base-path: /
+
+supergw:
+  nacos:
+    dataId: supergw.nacos.properties
+    groupId: DEFAULT_GROUP
+  pressNacos:
+    dataId: perf.test
+    groupId: DEFAULT_GROUP

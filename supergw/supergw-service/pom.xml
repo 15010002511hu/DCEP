@@ -1,0 +1,456 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.dcep.supergw</groupId>
+        <artifactId>supergw</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>supergw-service</artifactId>
+    <name>supergw-service</name>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <dependencies>
+        <!-- sentinel 依赖-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-extension</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+	        <exclusions>
+	            <exclusion>
+	                <groupId>com.alibaba.nacos</groupId>
+	                <artifactId>nacos-client</artifactId>
+	            </exclusion>
+	        </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-annotation-aspectj</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcepex.fullchain.opentracing.monitor</groupId>
+            <artifactId>trace-support-package</artifactId>
+        </dependency>
+
+
+        <!-- sentinel 依赖-->
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>supergw-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>supergw-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- servlet 容器  undertow -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        
+        <!-- log4j2 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ######################  DCEP 内部工程 依赖   ############################ -->
+
+        <!--  common工程jar引用  -->
+		<dependency>
+			<groupId>com.dcep</groupId>
+			<artifactId>ldc</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dcep.dips</groupId>
+            <artifactId>dips-common</artifactId>
+        </dependency>
+            
+        <!--  交易转接jar引用  -->
+        <dependency>
+            <groupId>com.dcep.clearing</groupId>
+            <artifactId>clearing-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep.clearing</groupId>
+            <artifactId>clearing-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep.dips</groupId>
+            <artifactId>wholesalepayment-api</artifactId>
+        </dependency>
+        
+        <dependency>
+             <groupId>com.dcep.dips</groupId>
+             <artifactId>wholesalepayment-dto</artifactId>
+        </dependency>
+        
+        <!--  运行时序控制jar引用 -->
+        <dependency>
+             <groupId>com.dcep.dips</groupId>
+             <artifactId>operatingcontrol-dto</artifactId>
+        </dependency>
+        
+        <dependency>
+             <groupId>com.dcep.dips</groupId>
+             <artifactId>liquiditymgmtsum-api</artifactId>
+        </dependency>
+        
+        <dependency>
+             <groupId>com.dcep.dips</groupId>
+             <artifactId>liquiditymgmtsum-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep.dips</groupId>
+            <artifactId>acctrans-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep.dips</groupId>
+            <artifactId>acctrans-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep.riskmanagement.portalinterface</groupId>
+            <artifactId>portal-interface-engine-hlht-api</artifactId>
+        </dependency>
+
+        <!--  tsm jar引用  -->
+        <dependency>
+            <groupId>com.dcep.tsm</groupId>
+            <artifactId>tsm-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dcep.tsm</groupId>
+            <artifactId>tsm-dto</artifactId>
+        </dependency>
+
+        <!--  信息采集jar引用  -->
+        <dependency>
+            <groupId>com.dcep.infocollect</groupId>
+            <artifactId>infocollect-api</artifactId>
+        </dependency>
+
+        <!--  信息缓存jar引用  -->
+        <dependency>
+            <groupId>com.dcep.infocache</groupId>
+            <artifactId>infocache-api</artifactId>
+        </dependency>
+
+        <!--  公共管理jar引用  -->
+        <dependency>
+            <groupId>com.dcep.doms</groupId>
+            <artifactId>doms-fi-api</artifactId>
+        </dependency>
+            
+        <dependency>
+            <groupId>com.dcep.doms</groupId>
+            <artifactId>doms-monitor-api</artifactId>
+        </dependency>
+            
+        <dependency>
+            <groupId>com.dcep.doms</groupId>
+            <artifactId>doms-exchange-api</artifactId>
+        </dependency>
+            
+        <dependency>
+            <groupId>com.dcep.doms</groupId>
+            <artifactId>doms-dynamic-config-api</artifactId>
+        </dependency>
+            
+        <dependency>
+            <groupId>com.dcep.doms</groupId>
+            <artifactId>cloudcontrol-api</artifactId>
+        </dependency>
+            
+        <dependency>
+            <groupId>com.dcep.doms</groupId>
+            <artifactId>doms-event-api</artifactId>
+        </dependency>
+
+        <!--  钱包jar引用  -->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>uniwlt-user-query-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>uniwlt-user-management-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>uniwlt-user-info-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.dcep.dubbo</groupId>
+                    <artifactId>dubbo-ldc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>uniwlt-wallet-info-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>uniwlt-captcha-api</artifactId>
+        </dependency>
+      
+        <dependency>
+            <groupId>com.dcep.uniwlt.ecsp</groupId>
+            <artifactId>uniwlt-ecsp-user-management-api</artifactId>
+        </dependency>
+
+
+        <!-- 密码服务平台 -->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>EncryptSuit</artifactId>
+        </dependency>
+
+        <!-- 机构对账 -->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>dcreconsum-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>dcreconsum-api</artifactId>
+        </dependency>
+
+        <!-- 账务系统 -->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>dctrans-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>dctrans-api</artifactId>
+        </dependency>
+
+        <!--tsp-->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>tsp-server-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>tsp-server-dto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>quickpay-api</artifactId>
+        </dependency>
+
+        <!--差错平台-->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>dcerradj-api</artifactId>
+        </dependency>
+
+        <!--core-->
+        <dependency>
+            <groupId>com.dcep.supergw</groupId>
+            <artifactId>supergw-core</artifactId>
+        </dependency>
+
+        <!--第三方集成服务-->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>thirdpart-integration-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>thirdpart-integration-dto</artifactId>
+        </dependency>
+        
+        <!-- 大数据  -->
+        <dependency>
+         	<groupId>com.dcep.bigdata</groupId>
+           	<artifactId>bigdata-gateway-dto</artifactId>
+        </dependency>
+        <dependency>
+           	<groupId>com.dcep.bigdata</groupId>
+           	<artifactId>bigdata-gateway-api</artifactId>
+        </dependency>
+	
+		<!-- 信息同步服务 -->
+		<dependency>
+			<groupId>com.dcep</groupId>
+			<artifactId>infosync-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dcep</groupId>
+			<artifactId>infosync-dto</artifactId>
+		</dependency>
+
+        <!-- 全链路监控 -->
+        <dependency>
+            <groupId>com.dcepex.fullchain.opentracing.monitor</groupId>
+            <artifactId>trace-support-package</artifactId>
+        </dependency>
+
+        <!-- 内部网关增加应用探活功能，通过actuator暴露出的health端点实现 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        
+        <!-- 路由服务 -->
+		<dependency>
+			<groupId>com.dcep.routing</groupId>
+			<artifactId>routing-api</artifactId>
+		</dependency>   
+		
+		<!-- 风控服务 -->
+		<dependency>
+            <groupId>com.dcep.rm.postprocess</groupId>
+            <artifactId>rm-postprocess-dto</artifactId>
+        </dependency>
+
+		<!-- 服务网关 -->
+		<dependency>
+			<groupId>com.dcep.gateway</groupId>
+			<artifactId>super-gateway-api</artifactId>
+		</dependency>
+
+        <!--智能合约生态服务平台引用-->
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>code-verify-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>contract-management-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dcep</groupId>
+            <artifactId>real-time-verify-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>supergw-service</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <failOnError>true</failOnError>
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+

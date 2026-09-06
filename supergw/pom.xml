@@ -1,0 +1,648 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.dcep.supergw</groupId>
+    <artifactId>supergw</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>supergw</name>
+
+    <modules>
+        <module>supergw-api</module>
+        <module>supergw-core</module>
+        <module>supergw-service</module>
+        <module>supergw-dto</module>
+    </modules>
+
+    <!-- Inherit defaults from Spring Boot -->
+    <parent>
+        <groupId>com.dcep</groupId>
+        <artifactId>dcep-boot-starter-parent</artifactId>
+        <version>2.1.1</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <!--内部网关版本号管理-->
+        <revision>1.4.0</revision>
+        <!--外部依赖版本号管理-->
+        <sentinel.version>1.8.4</sentinel.version>
+        <httpclient.version>4.5.9</httpclient.version>
+        <httpasyncclient.version>4.1.4</httpasyncclient.version>
+        <jakarta-servlet.version>4.0.3</jakarta-servlet.version>
+        <jmockit.version>1.36</jmockit.version>
+        <!--内部依赖版本号管理-->
+        <encryptsuit.version>1.5.6-20230904</encryptsuit.version> <!--密码服务平台-->
+        <infocache.version>2.1.8</infocache.version> <!--信息缓存-->
+        <opcontrol.version>1.0.0</opcontrol.version>
+        <dips.version>1.0.0</dips.version>
+        <clearing.version>1.7.35</clearing.version> <!--交易转接-->
+        <wholesalepayment.version>1.0.0</wholesalepayment.version> <!--批发交易-->
+        <liquiditymgmtsum.version>1.0.0</liquiditymgmtsum.version> <!--流动性总控-->
+        <dcreconsum.version>1.8.4</dcreconsum.version> <!--机构对账-总控-->
+        <dctrans.version>1.6.12</dctrans.version> <!--账务系统-->
+        <dcerradj.version>1.4.6</dcerradj.version> <!--差错管理 -->
+        <infocollect.version>1.3.17</infocollect.version> <!--信息采集-->
+        <doms-fi-api.version>1.0.0</doms-fi-api.version> <!--公共管理-机构管理-api-->
+        <doms-monitor-api.version>1.0.0</doms-monitor-api.version> <!--公共管理-监测分析-api-->
+        <doms-exchange-api.version>1.0.0</doms-exchange-api.version> <!--公共管理-兑换管理-api-->
+        <doms-dynamic-config-api.version>1.2.1</doms-dynamic-config-api.version> <!--公共管理-动态配置-api-->
+        <doms-cloudcontrol-api.version>1.6.0</doms-cloudcontrol-api.version> <!--公共管理-云控管理-api-->
+        <doms-event-api.version>1.5.0</doms-event-api.version> <!--公共管理-事件响应-api-->
+        <uniwlt.version>1.9.25</uniwlt.version> <!--钱包后台-->
+        <tsp-server.version>2.2.12</tsp-server.version> <!--子钱包 -->
+        <quickpay.version>1.0.2</quickpay.version> <!--钱包快付 -->
+        <thirdpart-integration.version>2.1.7</thirdpart-integration.version> <!--第三方集成-->
+        <bigdata-gateway.version>1.3.1</bigdata-gateway.version> <!--大数据 -->
+        <routing.version>1.0.8</routing.version> <!--路由服务 -->
+        <rm.version>1.0.0</rm.version> <!--风控服务 -->
+        <super-gateway.version>1.0.3</super-gateway.version> <!--服务网关 -->
+        <tsm.version>3.3.25</tsm.version> <!--TSM服务 -->
+        <infosync.version>1.0.1</infosync.version> <!--信息同步服务 -->
+        <opentracing.version>1.5.2.RELEASE</opentracing.version><!--全链路监控 -->
+        <!--智能合约生态服务平台依赖-->
+        <code-verify-api.version>1.0.0</code-verify-api.version>
+        <contract-management-api.version>1.0.4</contract-management-api.version>
+        <real-time-verify-api.version>1.0.4</real-time-verify-api.version>
+        <risk-portalinterface-version>1.0.3</risk-portalinterface-version>
+        <acctrans.version>1.0.0</acctrans.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- sentinel 依赖-->
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-core</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-extension</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba.nacos</groupId>
+                        <artifactId>nacos-client</artifactId>
+                    </exclusion>
+                </exclusions>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-annotation-aspectj</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <!-- sentinel 依赖-->
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>supergw-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>supergw-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>supergw-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>supergw-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 除了spring boot以外三方包依赖,  spring boot不需要写 ，  在  parent 有  -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpasyncclient</artifactId>
+                <version>${httpasyncclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmockit</groupId>
+                <artifactId>jmockit</artifactId>
+                <version>${jmockit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta-servlet.version}</version>
+            </dependency>
+
+            <!-- ######################  DCEP 内部工程 依赖   ############################ -->
+
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>dips-common</artifactId>
+                <version>${dips.version}</version>
+            </dependency>
+
+            <!--  交易转接jar引用  -->
+            <dependency>
+                <groupId>com.dcep.clearing</groupId>
+                <artifactId>clearing-api</artifactId>
+                <version>${clearing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep.clearing</groupId>
+                <artifactId>clearing-dto</artifactId>
+                <version>${clearing.version}</version>
+            </dependency>
+            
+            <!--  批发交易jar引用  -->
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>wholesalepayment-api</artifactId>
+                <version>${wholesalepayment.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>wholesalepayment-dto</artifactId>
+                <version>${wholesalepayment.version}</version>
+            </dependency>
+            
+            <!--  运行时序控制jar引用 -->
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>operatingcontrol-dto</artifactId>
+                <version>${opcontrol.version}</version>
+            </dependency>
+            
+            <!--  流动性总控jar引用  -->
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>liquiditymgmtsum-api</artifactId>
+                <version>${liquiditymgmtsum.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>liquiditymgmtsum-dto</artifactId>
+                <version>${liquiditymgmtsum.version}</version>
+            </dependency>
+
+            <!--  信息采集jar引用  -->
+            <dependency>
+                <groupId>com.dcep.infocollect</groupId>
+                <artifactId>infocollect-api</artifactId>
+                <version>${infocollect.version}</version>
+            </dependency>
+
+            <!--  信息缓存jar引用  -->
+            <dependency>
+                <groupId>com.dcep.infocache</groupId>
+                <artifactId>infocache-api</artifactId>
+                <version>${infocache.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>acctrans-api</artifactId>
+                <version>${acctrans.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.dips</groupId>
+                <artifactId>acctrans-dto</artifactId>
+                <version>${acctrans.version}</version>
+            </dependency>
+
+            <!--  公共管理jar引用  -->
+            <dependency>
+                <groupId>com.dcep.doms</groupId>
+                <artifactId>doms-fi-api</artifactId>
+                <version>${doms-fi-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.doms</groupId>
+                <artifactId>doms-monitor-api</artifactId>
+                <version>${doms-monitor-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.doms</groupId>
+                <artifactId>doms-exchange-api</artifactId>
+                <version>${doms-exchange-api.version}</version>
+            </dependency>
+
+           <dependency>
+                <groupId>com.dcep.doms</groupId>
+                <artifactId>doms-dynamic-config-api</artifactId>
+                <version>${doms-dynamic-config-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.doms</groupId>
+                <artifactId>cloudcontrol-api</artifactId>
+                <version>${doms-cloudcontrol-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.doms</groupId>
+                <artifactId>doms-event-api</artifactId>
+                <version>${doms-event-api.version}</version>
+            </dependency>
+
+            <!-- 密码服务平台 -->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>EncryptSuit</artifactId>
+                <version>${encryptsuit.version}</version>
+            </dependency>
+
+            <!--  钱包jar引用  -->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>uniwlt-dependencies-bom</artifactId>
+                <version>${uniwlt.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- 机构对账 -->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>dcreconsum-dto</artifactId>
+                <version>${dcreconsum.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>dcreconsum-api</artifactId>
+                <version>${dcreconsum.version}</version>
+            </dependency>
+
+            <!-- 账务系统 -->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>dctrans-dto</artifactId>
+                <version>${dctrans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>dctrans-api</artifactId>
+                <version>${dctrans.version}</version>
+            </dependency>
+
+            <!--tsp系统-->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>tsp-server-api</artifactId>
+                <version>${tsp-server.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>tsp-server-dto</artifactId>
+                <version>${tsp-server.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>quickpay-api</artifactId>
+                <version>${quickpay.version}</version>
+            </dependency>
+
+            <!--差错平台-->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>dcerradj-api</artifactId>
+                <version>${dcerradj.version}</version>
+            </dependency>
+
+            <!--第三方集成服务-->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>thirdpart-integration-api</artifactId>
+                <version>${thirdpart-integration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>thirdpart-integration-dto</artifactId>
+                <version>${thirdpart-integration.version}</version>
+            </dependency>
+
+            <!-- 大数据  -->
+            <dependency>
+                <groupId>com.dcep.bigdata</groupId>
+                <artifactId>bigdata-gateway-dto</artifactId>
+                <version>${bigdata-gateway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep.bigdata</groupId>
+                <artifactId>bigdata-gateway-api</artifactId>
+                <version>${bigdata-gateway.version}</version>
+            </dependency>
+
+            <!--tsm-->
+            <dependency>
+                <groupId>com.dcep.tsm</groupId>
+                <artifactId>tsm-api</artifactId>
+                <version>${tsm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep.tsm</groupId>
+                <artifactId>tsm-dto</artifactId>
+                <version>${tsm.version}</version>
+            </dependency>
+
+            <!--信息同步服务-->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>infosync-api</artifactId>
+                <version>${infosync.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>infosync-dto</artifactId>
+                <version>${infosync.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep.riskmanagement.portalinterface</groupId>
+                <artifactId>portal-interface-engine-hlht-api</artifactId>
+                <version>${risk-portalinterface-version}</version>
+            </dependency>
+
+            <!-- 全链路监控 -->
+            <dependency>
+                <groupId>com.dcepex.fullchain.opentracing.monitor</groupId>
+                <artifactId>trace-support-package</artifactId>
+                <version>${opentracing.version}</version>
+            </dependency>
+            
+            <!-- 路由服务 -->
+            <dependency>
+				<groupId>com.dcep.routing</groupId>
+				<artifactId>routing-api</artifactId>
+				<version>${routing.version}</version>
+			</dependency>
+			
+			<!-- 风控服务 -->
+            <dependency>
+                <groupId>com.dcep.rm.postprocess</groupId>
+                <artifactId>rm-postprocess-dto</artifactId>
+                <version>${rm.version}</version>
+            </dependency>
+            
+            <!-- 服务网关 -->
+            <dependency>
+                <groupId>com.dcep.gateway</groupId>
+                <artifactId>super-gateway-api</artifactId>
+                <version>${super-gateway.version}</version>
+            </dependency>
+
+            <!--智能合约生态服务平台引用-->
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>code-verify-api</artifactId>
+                <version>${code-verify-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>contract-management-api</artifactId>
+                <version>${contract-management-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.dcep</groupId>
+                <artifactId>real-time-verify-api</artifactId>
+                <version>${real-time-verify-api.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>${argLine} -Dfile.encoding=UTF-8</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            **/lib/**
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/api/**
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/dto/**
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/Aplication.class
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/common/exception/ExceptionUtil.class
+                        </exclude>
+                        <exclude>
+                            **/com/dcep/supergw/service/impl/GwForHvpsServiceImpl.class
+                        </exclude>
+                        <exclude>
+                            **/com/dcep/supergw/manager/channel/action/AbstractAction.class
+                        </exclude>
+                        <exclude>
+                            **/com/dcep/supergw/common/utils/EnviromentUtils.class
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/common/utils/LoggerUtils.class
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/common/constant/**
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/common/config/**
+                        </exclude>
+
+                        <exclude>
+                            **/com/dcep/supergw/validation/**
+                        </exclude>
+
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.11.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.alibaba.p3c</groupId>
+                        <artifactId>p3c-pmd</artifactId>
+                        <version>1.3.6</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.5</version>
+                <configuration>
+                    <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+                    <includeFilterFile>findbugs-include.xml</includeFilterFile>
+                    <findbugsXmlOutput>true</findbugsXmlOutput>
+                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+                    <xmlOutput>true</xmlOutput>
+                    <xmlOutputDirectory>target/site</xmlOutputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                </configuration>
+            </plugin>
+            <!--使用flatten-maven-plugin插件替换pom中的变量，如 <revision>-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+              <configLocation>dcep-checkstyle.xml</configLocation>
+              <consoleOutput>true</consoleOutput>
+              <failsOnError>true</failsOnError>
+            </configuration>
+            <executions>
+              <execution>
+                <id>dcfluxgw-checkstyle</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+        </plugins>
+    </reporting>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>bjbzf-om-jfrog-artifactory-releases</name>
+            <url>http://172.21.37.185:8082/artifactory/pbcdci-maven-virtual</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>bjbzf-om-jfrog-artifactory-snapshots</name>
+            <url>http://172.21.37.185:8082/artifactory/pbcdci-maven-virtual</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>pbcdci-maven-virtual</name>
+            <url>http://172.21.37.185:8082/artifactory/pbcdci-maven-virtual</url>
+        </repository>
+        <repository>
+            <snapshots />
+            <id>snapshots</id>
+            <name>pbcdci-maven-virtual</name>
+            <url>http://172.21.37.185:8082/artifactory/pbcdci-maven-virtual</url>
+		</repository>
+	</repositories>
+
+</project>
