@@ -1,0 +1,38 @@
+<ConRsNtfctn>
+    <GrpHdr>
+        <MsgId>{{MsgId}}</MsgId>
+        <CreDtTm>{{CurDtTm}}</CreDtTm>
+        <InstgPty>
+            <InstgDrctPty>C1010311000014</InstgDrctPty>
+        </InstgPty>
+        <InstdPty>
+            <InstdDrctPty>C1010211000012</InstdDrctPty>
+        </InstdPty>
+    </GrpHdr>
+    <OrgnlGrpHdr>
+        <OrgnlMsgId>20251016010126251905000013023161</OrgnlMsgId>
+        <OrgnlInstgPty>C1010211000012</OrgnlInstgPty>
+        <OrgnlMT>dcep.262.001.01</OrgnlMT>
+    </OrgnlGrpHdr>
+    <RspsnInf>
+        <RspsnSts>PR00</RspsnSts>
+    </RspsnInf>
+    <TrxInf>
+        <BatchId>B202510162100</BatchId>
+        <TrxAmt Ccy="CNY">1.00</TrxAmt>
+        <OrdrNo>DWM0A00079O300335052025101633</OrdrNo>
+    </TrxInf>
+    <Cdtr>
+        <CdtrPtyId>C1010211000012</CdtrPtyId>
+    </Cdtr>
+    <Dbtr>
+        <DbtrWltNm>wangxiaoyu</DbtrWltNm>
+        <DbtrWltId>0031000000000000</DbtrWltId>
+        <DbtrWltTp>WT01</DbtrWltTp>
+        <DbtrWltLvl>WL01</DbtrWltLvl>
+        <DbtrPtyId>C1010311000014</DbtrPtyId>
+        <ResdtTp>REST01</ResdtTp>
+        <ResdtCtryCd>CN</ResdtCtryCd>
+        <RegrCtryCd>CN</RegrCtryCd>
+    </Dbtr>
+</ConRsNtfctn>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.AccountingInstrMapper">
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.AccountingInstrDO">
+    <id column="trans_id" jdbcType="VARCHAR" property="transId" />
+    <id column="partition_time" jdbcType="TIMESTAMP" property="partitionTime" />
+    <result column="msg_id" jdbcType="CHAR" property="msgId" />
+    <result column="msg_tp" jdbcType="CHAR" property="msgTp" />
+    <result column="orgnl_trans_id" jdbcType="VARCHAR" property="orgnlTransId" />
+    <result column="send_pty_id" jdbcType="CHAR" property="sendPtyId" />
+    <result column="end_to_end_Id" jdbcType="VARCHAR" property="endToEndId" />
+    <result column="actg_biz_tp" jdbcType="CHAR" property="actgBizTp" />
+    <result column="actg_biz_kind" jdbcType="VARCHAR" property="actgBizKind" />
+    <result column="biz_prty" jdbcType="CHAR" property="bizPrty" />
+    <result column="mgmt_tp" jdbcType="CHAR" property="mgmtTp" />
+    <result column="biz_dt" jdbcType="CHAR" property="bizDt" />
+    <result column="actg_dt" jdbcType="CHAR" property="actgDt" />
+    <result column="from_clr_sys_id" jdbcType="VARCHAR" property="fromClrSysId" />
+    <result column="from_clr_mmb_id" jdbcType="VARCHAR" property="fromClrMmbId" />
+    <result column="from_wllt_id" jdbcType="VARCHAR" property="fromWlltId" />
+    <result column="from_acct_no" jdbcType="VARCHAR" property="fromAcctNo" />
+    <result column="to_clr_sys_id" jdbcType="VARCHAR" property="toClrSysId" />
+    <result column="to_clr_mmb_id" jdbcType="VARCHAR" property="toClrMmbId" />
+    <result column="to_wllt_id" jdbcType="VARCHAR" property="toWlltId" />
+    <result column="to_acct_no" jdbcType="VARCHAR" property="toAcctNo" />
+    <result column="actg_model" jdbcType="VARCHAR" property="actgModel" />
+    <result column="currency" jdbcType="CHAR" property="currency" />
+    <result column="amount" jdbcType="BIGINT" property="amount" />
+    <result column="abstract_cd" jdbcType="VARCHAR" property="abstractCd" />
+    <result column="abstract_desc" jdbcType="VARCHAR" property="abstractDesc" />
+    <result column="actg_sts" jdbcType="CHAR" property="actgSts" />
+    <result column="actg_prc_cd" jdbcType="VARCHAR" property="actgPrcCd" />
+    <result column="actg_prc_inf" jdbcType="VARCHAR" property="actgPrcInf" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <sql id="all_columns">
+    trans_id, partition_time, msg_id, msg_tp, orgnl_trans_id, send_pty_id, end_to_end_Id,
+    actg_biz_tp, actg_biz_kind, biz_prty, mgmt_tp, biz_dt, actg_dt, from_clr_sys_id,
+    from_clr_mmb_id, from_wllt_id, from_acct_no, to_clr_sys_id, to_clr_mmb_id, to_wllt_id,
+    to_acct_no, actg_model, currency, amount, abstract_cd, abstract_desc, actg_sts, actg_prc_cd,
+    actg_prc_inf, gmt_create, gmt_modified
+  </sql>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.AccountingInstrDO">
+    insert into accounting_instr (trans_id, partition_time, msg_id,
+      msg_tp, orgnl_trans_id, send_pty_id, 
+      end_to_end_Id, actg_biz_tp, actg_biz_kind, 
+      biz_prty, mgmt_tp, biz_dt, actg_dt, 
+      from_clr_sys_id, from_clr_mmb_id, from_wllt_id, 
+      from_acct_no, to_clr_sys_id, to_clr_mmb_id, 
+      to_wllt_id, to_acct_no, actg_model, 
+      currency, amount, abstract_cd, 
+      abstract_desc, actg_sts, actg_prc_cd, 
+      actg_prc_inf, gmt_create, gmt_modified
+      )
+    values (#{transId,jdbcType=VARCHAR}, #{partitionTime,jdbcType=TIMESTAMP}, #{msgId,jdbcType=CHAR}, 
+      #{msgTp,jdbcType=CHAR}, #{orgnlTransId,jdbcType=VARCHAR}, #{sendPtyId,jdbcType=CHAR}, 
+      #{endToEndId,jdbcType=VARCHAR}, #{actgBizTp,jdbcType=CHAR}, #{actgBizKind,jdbcType=VARCHAR}, 
+      #{bizPrty,jdbcType=CHAR}, #{mgmtTp,jdbcType=CHAR}, #{bizDt,jdbcType=CHAR}, #{actgDt,jdbcType=CHAR}, 
+      #{fromClrSysId,jdbcType=VARCHAR}, #{fromClrMmbId,jdbcType=VARCHAR}, #{fromWlltId,jdbcType=VARCHAR}, 
+      #{fromAcctNo,jdbcType=VARCHAR}, #{toClrSysId,jdbcType=VARCHAR}, #{toClrMmbId,jdbcType=VARCHAR}, 
+      #{toWlltId,jdbcType=VARCHAR}, #{toAcctNo,jdbcType=VARCHAR}, #{actgModel,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=CHAR}, #{amount,jdbcType=BIGINT}, #{abstractCd,jdbcType=VARCHAR}, 
+      #{abstractDesc,jdbcType=VARCHAR}, #{actgSts,jdbcType=CHAR}, #{actgPrcCd,jdbcType=VARCHAR}, 
+      #{actgPrcInf,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.AccountingInstrDO">
+    update accounting_instr
+    set msg_id = #{msgId,jdbcType=CHAR},
+      msg_tp = #{msgTp,jdbcType=CHAR},
+      orgnl_trans_id = #{orgnlTransId,jdbcType=VARCHAR},
+      send_pty_id = #{sendPtyId,jdbcType=CHAR},
+      end_to_end_Id = #{endToEndId,jdbcType=VARCHAR},
+      actg_biz_tp = #{actgBizTp,jdbcType=CHAR},
+      actg_biz_kind = #{actgBizKind,jdbcType=VARCHAR},
+      biz_prty = #{bizPrty,jdbcType=CHAR},
+      mgmt_tp = #{mgmtTp,jdbcType=CHAR},
+      biz_dt = #{bizDt,jdbcType=CHAR},
+      actg_dt = #{actgDt,jdbcType=CHAR},
+      from_clr_sys_id = #{fromClrSysId,jdbcType=VARCHAR},
+      from_clr_mmb_id = #{fromClrMmbId,jdbcType=VARCHAR},
+      from_wllt_id = #{fromWlltId,jdbcType=VARCHAR},
+      from_acct_no = #{fromAcctNo,jdbcType=VARCHAR},
+      to_clr_sys_id = #{toClrSysId,jdbcType=VARCHAR},
+      to_clr_mmb_id = #{toClrMmbId,jdbcType=VARCHAR},
+      to_wllt_id = #{toWlltId,jdbcType=VARCHAR},
+      to_acct_no = #{toAcctNo,jdbcType=VARCHAR},
+      actg_model = #{actgModel,jdbcType=VARCHAR},
+      currency = #{currency,jdbcType=CHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      abstract_cd = #{abstractCd,jdbcType=VARCHAR},
+      abstract_desc = #{abstractDesc,jdbcType=VARCHAR},
+      actg_sts = #{actgSts,jdbcType=CHAR},
+      actg_prc_cd = #{actgPrcCd,jdbcType=VARCHAR},
+      actg_prc_inf = #{actgPrcInf,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where trans_id = #{transId,jdbcType=VARCHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.AccountingInstrDO" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from accounting_instr
+    where trans_id = #{transId,jdbcType=VARCHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </select>
+
+  <select id="selectByMsgId" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from accounting_instr
+    where msg_id = #{msgId, jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByMsgIdPrepare" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from accounting_instr
+    where msg_id = #{msgId, jdbcType=VARCHAR}
+    and orgnl_trans_id is null
+  </select>
+
+  <select id="selectByMsgIdFinish" parameterType="com.dcep.dips.wholesalepayment.dal.model.AccountingInstrDO" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from accounting_instr
+    where msg_id = #{msgId, jdbcType=VARCHAR}
+      and orgnl_trans_id = #{orgnlTransId, jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateActgSts">
+    update accounting_instr
+    set actg_sts = #{accountingInstrDO.actgSts,jdbcType=CHAR},
+      actg_prc_cd = #{accountingInstrDO.actgPrcCd,jdbcType=CHAR},
+      actg_prc_inf = #{accountingInstrDO.actgPrcInf,jdbcType=CHAR},
+           actg_dt  = #{accountingInstrDO.actgDt,jdbcType=CHAR},
+        gmt_modified = now(3)
+    where trans_id     = #{accountingInstrDO.transId,jdbcType=VARCHAR}
+      and partition_time = #{accountingInstrDO.partitionTime,jdbcType=TIMESTAMP}
+      and actg_sts         = #{orgnlActgSts, jdbcType=CHAR}
+  </update>
+
+  <update id="updateAccountingInstr" parameterType="com.dcep.dips.wholesalepayment.dal.model.AccountingInstrDO">
+    update accounting_instr
+    set actg_sts = #{actgSts,jdbcType=CHAR},
+        actg_prc_cd = #{actgPrcCd,jdbcType=CHAR},
+        actg_prc_inf = #{actgPrcInf,jdbcType=CHAR},
+        actg_dt    = #{actgDt,jdbcType=CHAR},
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where trans_id     = #{transId,jdbcType=VARCHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </update>
+
+</mapper>

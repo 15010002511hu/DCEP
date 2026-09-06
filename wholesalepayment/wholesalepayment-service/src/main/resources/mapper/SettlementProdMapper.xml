@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.SettlementProdMapper">
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    <id column="msg_id" jdbcType="CHAR" property="msgId" />
+    <id column="partition_time" jdbcType="TIMESTAMP" property="partitionTime" />
+    <result column="msg_tp" jdbcType="CHAR" property="msgTp" />
+    <result column="sttlm_dt" jdbcType="CHAR" property="sttlmDt" />
+    <result column="bat_id" jdbcType="CHAR" property="batId" />
+    <result column="biz_tp" jdbcType="CHAR" property="bizTp" />
+    <result column="biz_kind" jdbcType="CHAR" property="bizKind" />
+    <result column="trans_tp" jdbcType="CHAR" property="transTp" />
+    <result column="send_pty_id" jdbcType="CHAR" property="sendPtyId" />
+    <result column="send_sys_id" jdbcType="VARCHAR" property="sendSysId" />
+    <result column="recv_pty_id" jdbcType="CHAR" property="recvPtyId" />
+    <result column="recv_sys_id" jdbcType="VARCHAR" property="recvSysId" />
+    <result column="dbtr_pty_id" jdbcType="CHAR" property="dbtrPtyId" />
+    <result column="dbtr_sys_id" jdbcType="VARCHAR" property="dbtrSysId" />
+    <result column="dbtr_id" jdbcType="VARCHAR" property="dbtrId" />
+    <result column="cbtr_pty_id" jdbcType="CHAR" property="cbtrPtyId" />
+    <result column="cbtr_sys_id" jdbcType="VARCHAR" property="cbtrSysId" />
+    <result column="cbtr_id" jdbcType="VARCHAR" property="cbtrId" />
+    <result column="currency" jdbcType="CHAR" property="currency" />
+    <result column="sttlm_amt" jdbcType="BIGINT" property="sttlmAmt" />
+    <result column="cdt_dbt_ind" jdbcType="CHAR" property="cdtDbtInd" />
+    <result column="biz_sts" jdbcType="CHAR" property="bizSts" />
+    <result column="biz_prc_cd" jdbcType="CHAR" property="bizPrcCd" />
+    <result column="biz_prc_inf" jdbcType="VARCHAR" property="bizPrcInf" />
+    <result column="biz_dt" jdbcType="CHAR" property="bizDt" />
+    <result column="biz_desc_inf" jdbcType="VARCHAR" property="bizDescInf" />
+    <result column="clr_flag" jdbcType="CHAR" property="clrFlag" />
+    <result column="clr_prod" jdbcType="CHAR" property="clrProd" />
+    <result column="send_sts" jdbcType="CHAR" property="sendSts" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    insert into settlement_prod (msg_id, partition_time, msg_tp,
+      sttlm_dt, bat_id, biz_tp, biz_kind, 
+      trans_tp, send_pty_id, send_sys_id, 
+      recv_pty_id, recv_sys_id, dbtr_pty_id, 
+      dbtr_sys_id, dbtr_id, cbtr_pty_id, 
+      cbtr_sys_id, cbtr_id, currency, 
+      sttlm_amt, cdt_dbt_ind, biz_sts, 
+      biz_prc_cd, biz_prc_inf, biz_dt, 
+      biz_desc_inf, clr_flag, clr_prod, 
+      gmt_create, gmt_modified)
+    values (#{msgId,jdbcType=CHAR}, #{partitionTime,jdbcType=TIMESTAMP}, #{msgTp,jdbcType=CHAR}, 
+      #{sttlmDt,jdbcType=CHAR}, #{batId,jdbcType=CHAR}, #{bizTp,jdbcType=CHAR}, #{bizKind,jdbcType=CHAR}, 
+      #{transTp,jdbcType=CHAR}, #{sendPtyId,jdbcType=CHAR}, #{sendSysId,jdbcType=VARCHAR}, 
+      #{recvPtyId,jdbcType=CHAR}, #{recvSysId,jdbcType=VARCHAR}, #{dbtrPtyId,jdbcType=CHAR}, 
+      #{dbtrSysId,jdbcType=VARCHAR}, #{dbtrId,jdbcType=VARCHAR}, #{cbtrPtyId,jdbcType=CHAR}, 
+      #{cbtrSysId,jdbcType=VARCHAR}, #{cbtrId,jdbcType=VARCHAR}, #{currency,jdbcType=CHAR}, 
+      #{sttlmAmt,jdbcType=BIGINT}, #{cdtDbtInd,jdbcType=CHAR}, #{bizSts,jdbcType=CHAR}, 
+      #{bizPrcCd,jdbcType=CHAR}, #{bizPrcInf,jdbcType=VARCHAR}, #{bizDt,jdbcType=CHAR}, 
+      #{bizDescInf,jdbcType=VARCHAR}, #{clrFlag,jdbcType=CHAR}, #{clrProd,jdbcType=CHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    update settlement_prod
+    set msg_tp = #{msgTp,jdbcType=CHAR},
+      sttlm_dt = #{sttlmDt,jdbcType=CHAR},
+      bat_id = #{batId,jdbcType=CHAR},
+      biz_tp = #{bizTp,jdbcType=CHAR},
+      biz_kind = #{bizKind,jdbcType=CHAR},
+      trans_tp = #{transTp,jdbcType=CHAR},
+      send_pty_id = #{sendPtyId,jdbcType=CHAR},
+      send_sys_id = #{sendSysId,jdbcType=VARCHAR},
+      recv_pty_id = #{recvPtyId,jdbcType=CHAR},
+      recv_sys_id = #{recvSysId,jdbcType=VARCHAR},
+      dbtr_pty_id = #{dbtrPtyId,jdbcType=CHAR},
+      dbtr_sys_id = #{dbtrSysId,jdbcType=VARCHAR},
+      dbtr_id = #{dbtrId,jdbcType=VARCHAR},
+      cbtr_pty_id = #{cbtrPtyId,jdbcType=CHAR},
+      cbtr_sys_id = #{cbtrSysId,jdbcType=VARCHAR},
+      cbtr_id = #{cbtrId,jdbcType=VARCHAR},
+      currency = #{currency,jdbcType=CHAR},
+      sttlm_amt = #{sttlmAmt,jdbcType=BIGINT},
+      cdt_dbt_ind = #{cdtDbtInd,jdbcType=CHAR},
+      biz_sts = #{bizSts,jdbcType=CHAR},
+      biz_prc_cd = #{bizPrcCd,jdbcType=CHAR},
+      biz_prc_inf = #{bizPrcInf,jdbcType=VARCHAR},
+      biz_dt = #{bizDt,jdbcType=CHAR},
+      biz_desc_inf = #{bizDescInf,jdbcType=VARCHAR},
+      clr_flag = #{clrFlag,jdbcType=CHAR},
+      clr_prod = #{clrProd,jdbcType=CHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select msg_id, partition_time, msg_tp, sttlm_dt, bat_id, biz_tp, biz_kind, trans_tp,
+    send_pty_id, send_sys_id, recv_pty_id, recv_sys_id, dbtr_pty_id, dbtr_sys_id, dbtr_id, 
+    cbtr_pty_id, cbtr_sys_id, cbtr_id, currency, sttlm_amt, cdt_dbt_ind, biz_sts, biz_prc_cd, 
+    biz_prc_inf, biz_dt, biz_desc_inf, clr_flag, clr_prod, gmt_create, gmt_modified
+    from settlement_prod
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </select>
+
+  <update id="updateBizSts">
+    update settlement_prod
+    set biz_sts  = #{do.bizSts, jdbcType=TIMESTAMP},
+        biz_prc_cd = #{do.bizPrcCd, jdbcType=CHAR},
+        biz_prc_inf = #{do.bizPrcInf, jdbcType=CHAR},
+        gmt_modified = now(3)
+    <if test="do.sttlmDt!=null and do.sttlmDt!=''">
+      ,sttlm_dt = #{do.sttlmDt,jdbcType=VARCHAR}
+    </if>
+    where msg_id = #{do.msgId, jdbcType=CHAR}
+      and partition_time = #{do.partitionTime, jdbcType=TIMESTAMP}
+      and biz_sts = #{orgnlBizSts, jdbcType=CHAR}
+  </update>
+
+  <update id="updateByMsgId" parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    update settlement_prod
+    set biz_sts  = #{do.bizSts, jdbcType=TIMESTAMP},
+    gmt_modified = #{do.gmtModified, jdbcType=TIMESTAMP}
+    <if test="do.bizPrcCd!=null and do.bizPrcCd!=''">
+      ,biz_prc_cd = #{do.bizPrcCd, jdbcType=CHAR}
+    </if>
+    <if test="do.bizPrcInf!=null and do.bizPrcInf!=''">
+      ,biz_prc_cd = #{do.bizPrcCd, jdbcType=CHAR}
+    </if>
+    <if test="do.sttlmDt!=null and do.sttlmDt!=''">
+      ,sttlm_dt = #{do.sttlmDt,jdbcType=VARCHAR}
+    </if>
+    where msg_id = #{do.msgId, jdbcType=CHAR}
+      and partition_time = #{do.partitionTime, jdbcType=TIMESTAMP}
+  </update>
+
+  <select id="selectQueueByCurrentSystemDate" parameterType="map" resultMap="BaseResultMap">
+    select msg_id, partition_time, msg_tp, sttlm_dt, bat_id, biz_tp, biz_kind, trans_tp,
+           send_pty_id, send_sys_id, recv_pty_id, recv_sys_id, dbtr_pty_id, dbtr_sys_id, dbtr_id,
+           cbtr_pty_id, cbtr_sys_id, cbtr_id, currency, sttlm_amt, cdt_dbt_ind, biz_sts, biz_prc_cd,
+           biz_prc_inf, biz_dt, biz_desc_inf, clr_flag, clr_prod, gmt_create, gmt_modified
+    from settlement_prod
+    where sttlm_dt = #{currentSystemDate,jdbcType=CHAR}
+      and biz_sts in('PR11','PR06','PR02','PR12')
+    and (UNIX_TIMESTAMP(now(3))-UNIX_TIMESTAMP(gmt_create) >= 15)
+      <if test="msgId!=null and msgId!=''">
+        and msg_id > #{msgId,jdbcType=CHAR}
+      </if>
+    order by msg_id asc
+    limit 100
+  </select>
+
+  <select id="selectSendFailInfo" resultMap="BaseResultMap">
+    select msg_id,send_sts,cdt_Dbt_Ind
+    from
+      settlement_prod
+    where partition_time between #{lastDate,jdbcType=TIMESTAMP}
+      and #{nextDate,jdbcType=TIMESTAMP}
+      and send_sts = '2'
+      and clr_flag = '1'
+      and
+      (UNIX_TIMESTAMP(#{sysTime,jdbcType=TIMESTAMP}) -
+       UNIX_TIMESTAMP(gmt_modified) >= 1200) limit
+      100
+  </select>
+
+  <select id="selectByPartitionTime" resultMap="BaseResultMap"
+          parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    select msg_id, partition_time, msg_tp, sttlm_dt, bat_id, biz_tp, biz_kind, trans_tp,
+           send_pty_id, send_sys_id, recv_pty_id, recv_sys_id, dbtr_pty_id, dbtr_sys_id, dbtr_id,
+           cbtr_pty_id, cbtr_sys_id, cbtr_id, currency, sttlm_amt, cdt_dbt_ind, biz_sts, biz_prc_cd,
+           biz_prc_inf, biz_dt, biz_desc_inf, clr_flag, clr_prod, send_sts, gmt_create, gmt_modified
+    from
+      settlement_prod
+    where partition_time between #{lastDate,jdbcType=TIMESTAMP}
+      and #{nextDate,jdbcType=TIMESTAMP}
+      and send_sts = '1'
+      and clr_flag = '1'
+    order by gmt_create
+    limit ${limitCount}
+  </select>
+
+  <update id="updateSendFailInfo"
+          parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    update settlement_prod
+    set send_sts = '1',
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and
+      partition_time = #{msgCreateTime,jdbcType=TIMESTAMP}
+      and send_sts = '2'
+  </update>
+
+  <update id="updateSendStsLockByMsgId"
+          parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    update settlement_prod
+    set send_sts =
+          #{sendSts,jdbcType=CHAR},
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id =
+          #{msgId,jdbcType=CHAR}
+      and partition_time =
+          #{msgCreateTime,jdbcType=TIMESTAMP}
+      and send_sts = '1'
+  </update>
+
+  <update id="updateSendStsUnLockByMsgId"
+          parameterType="com.dcep.dips.wholesalepayment.dal.model.SettlementProdDO">
+    update settlement_prod
+    set send_sts =
+          #{sendSts,jdbcType=CHAR},
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id =
+          #{msgId,jdbcType=CHAR}
+      and partition_time =
+          #{msgCreateTime,jdbcType=TIMESTAMP}
+      and send_sts = '2'
+  </update>
+
+</mapper>

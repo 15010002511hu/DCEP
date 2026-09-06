@@ -1,0 +1,38 @@
+/**
+ * DCEP.com.cn Inc.
+ * Copyright (c) 2018-2019 All Rights Reserved.
+ */
+package com.dcep.dips.wholesalepayment.dto.dc201;
+
+import java.io.Serializable;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * 
+ * @author liuqi
+ * @version $Id: Purp.java, v 0.1 2019年8月23日 下午8:12:05 liuqi Exp $
+ */
+@JacksonXmlRootElement(localName = "Purp")
+@Setter
+@Getter
+@ToString
+public class Purp implements Serializable {
+    /**  */
+    private static final long serialVersionUID = 2014079329790129200L;
+    /**
+     * 业务种类编码
+     */
+    @JacksonXmlProperty(localName = "Prtry")
+    @NotBlank
+    @Pattern(regexp = "^[0-9]{5,8}$", message = "业务种类编码仅允许5-8位数字")
+    private String            prtry;
+}

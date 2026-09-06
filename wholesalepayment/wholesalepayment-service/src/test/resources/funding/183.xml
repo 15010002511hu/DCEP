@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LqdtyDbtTrf>
+    <MsgHdr>
+        <MsgId>{{MsgId}}</MsgId>
+        <CreDtTm>{{CurDtTm}}</CreDtTm>
+    </MsgHdr>
+    <LqdtyDbtTrf>
+        <Cdtr>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>{{Sender}}</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+        </Cdtr>
+        <TrfdAmt>
+            <AmtWthCcy Ccy="CNY">0.00</AmtWthCcy>
+        </TrfdAmt>
+        <Dbtr>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>{{Sender}}</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+        </Dbtr>
+    </LqdtyDbtTrf>
+</LqdtyDbtTrf>

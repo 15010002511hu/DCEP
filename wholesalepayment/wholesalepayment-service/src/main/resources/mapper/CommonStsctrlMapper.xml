@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.CommonStsctrlMapper">
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    <id column="msg_id" jdbcType="CHAR" property="msgId" />
+    <result column="biz_prty" jdbcType="CHAR" property="bizPrty" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="interval_second" jdbcType="INTEGER" property="intervalSecond" />
+    <result column="confirm_timeout" jdbcType="TIMESTAMP" property="confirmTimeout" />
+    <result column="notify_timeout" jdbcType="TIMESTAMP" property="notifyTimeout" />
+    <result column="presume_status" jdbcType="CHAR" property="presumeStatus" />
+    <result column="lock_sts" jdbcType="CHAR" property="lockSts" />
+    <result column="env_info" jdbcType="VARCHAR" property="envInfo" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    insert into common_stsctrl (msg_id, biz_prty, send_time,
+      interval_second, confirm_timeout, notify_timeout, 
+      presume_status, lock_sts, env_info, gmt_create
+      )
+    values (#{msgId,jdbcType=CHAR}, #{bizPrty,jdbcType=CHAR}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{intervalSecond,jdbcType=INTEGER}, #{confirmTimeout,jdbcType=TIMESTAMP}, #{notifyTimeout,jdbcType=TIMESTAMP},
+      #{presumeStatus,jdbcType=CHAR}, #{lockSts,jdbcType=CHAR}, #{envInfo,jdbcType=VARCHAR}, now(3)
+      )
+  </insert>
+
+  <select id="selectByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO" resultMap="BaseResultMap">
+    select msg_id, biz_prty, send_time, interval_second, confirm_timeout, notify_timeout, presume_status, lock_sts, env_info, gmt_create
+    from common_stsctrl
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </select>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    update common_stsctrl
+    set biz_prty = #{bizPrty,jdbcType=CHAR},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      interval_second = #{intervalSecond,jdbcType=INTEGER},
+      confirm_timeout = #{confirmTimeout,jdbcType=TIMESTAMP},
+      notify_timeout = #{notifyTimeout,jdbcType=TIMESTAMP},
+      presume_status = #{presumeStatus,jdbcType=CHAR},
+      lock_sts = #{lockSts,jdbcType=CHAR},
+      env_info = #{envInfo,jdbcType=VARCHAR}
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    delete from common_stsctrl
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </delete>
+
+  <select id="selectBySystemDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select msg_id, biz_prty, send_time, interval_second, confirm_timeout, notify_timeout, presume_status, lock_sts, env_info, gmt_create
+    from common_stsctrl
+    where send_time = #{currentSystemDate,jdbcType=CHAR}
+  </select>
+  <select id="selectForProcess" resultMap="BaseResultMap">
+      select c.msg_id, c.biz_prty, c.send_time, c.interval_second, c.confirm_timeout, c.notify_timeout, c.presume_status, c.lock_sts, c.env_info,c.gmt_create
+      from common_stsctrl c
+      left join settlement_prod p on p.msg_id = c.msg_id
+
+      where c.lock_sts = '2'
+      and (p.msg_tp = 'dcep.262.010.01')
+    and  p.msg_id = '20251030011126212100001100562860'
+
+      and (UNIX_TIMESTAMP(#{sysTime,jdbcType=TIMESTAMP})-UNIX_TIMESTAMP(c.send_time) > c.interval_second)
+      <if test='envInfo == "PRE"'>
+        and c.env_info = #{envInfo,jdbcType=VARCHAR}
+      </if>
+      <if test='envInfo == "PROD"'>
+        and (c.env_info = #{envInfo,jdbcType=VARCHAR} or c.env_info is null)
+      </if>
+      order by c.send_time asc
+      limit 100
+  </select>
+
+  <select id="selectForProcessLocked" resultMap="BaseResultMap">
+    select msg_id, biz_prty, send_time, interval_second, confirm_timeout, notify_timeout, presume_status, lock_sts, env_info, gmt_create
+    from common_stsctrl
+    where lock_sts = '1'
+    and (UNIX_TIMESTAMP(#{sysTime,jdbcType=TIMESTAMP})-UNIX_TIMESTAMP(send_time) >= 80)
+    <if test='envInfo == "PRE"'>
+      and env_info = #{envInfo,jdbcType=VARCHAR}
+    </if>
+    <if test='envInfo == "PROD"'>
+      and (env_info = #{envInfo,jdbcType=VARCHAR} or env_info is null)
+    </if>
+    order by send_time
+    limit 100
+  </select>
+
+  <update id="lock" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    update  common_stsctrl  set   lock_sts = '1'
+    where  msg_id = #{msgId,jdbcType=CHAR} and lock_sts = '2'
+  </update>
+  <update id="unLock" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    update  common_stsctrl  set   lock_sts = '2',send_time = #{sendTime,jdbcType=TIMESTAMP}
+    where  msg_id = #{msgId,jdbcType=CHAR} and lock_sts = '1'
+  </update>
+
+  <update id="updateSendTime" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonStsctrlDO">
+    update
+      common_stsctrl
+    set
+      send_time = #{sendTime,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </update>
+</mapper>

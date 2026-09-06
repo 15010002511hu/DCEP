@@ -1,0 +1,53 @@
+/**
+ * DCEP.com.cn Inc.
+ * Copyright (c) 2018-2019 All Rights Reserved.
+ */
+package com.dcep.dips.wholesalepayment.dto.dc201;
+
+import java.io.Serializable;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.dcep.common.encryption.DataEncryption;
+import com.dcep.common.encryption.EncryptionHelper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * 
+ * @author liuqi
+ * @version $Id: Cdtr.java, v 0.1 2019年8月23日 下午8:04:28 liuqi Exp $
+ */
+@JacksonXmlRootElement(localName = "Cdtr")
+@Setter
+@Getter
+@ToString
+public class Cdtr implements Serializable, DataEncryption {
+    /**  */
+    private static final long serialVersionUID = -1793229172929685941L;
+    /*
+     * 收款人名称 允许中文
+     */
+    @JacksonXmlProperty(localName = "Nm")
+    @Length(min = 0, max = 60)
+    private String            nm;
+    
+	@Override
+	public void encryptData(EncryptionHelper encryptionHelper) {
+		if(nm != null) {
+			this.setNm(encryptionHelper.encrypt(nm));
+		}
+	}
+	
+	@Override
+	public void decryptData(EncryptionHelper encryptionHelper) {
+		if(nm != null) {
+			this.setNm(encryptionHelper.decrypt(nm));
+		}
+	}
+
+}

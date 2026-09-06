@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FIToFICstmrCdtTrf>
+    <GrpHdr>
+        <MsgId>{{MsgId}}</MsgId>
+        <!--报文标识号、最后一位必须是0、1、2、3-->
+        <CreDtTm>{{CurDtTm}}</CreDtTm>
+        <NbOfTxs>1</NbOfTxs>
+        <SttlmInf>
+            <SttlmMtd>CLRG</SttlmMtd>
+        </SttlmInf>
+    </GrpHdr>
+    <CdtTrfTxInf>
+        <PmtId>
+            <EndToEndId>{{MsgId}}</EndToEndId>
+            <TxId>{{MsgId}}</TxId>
+            <!--明细标识号、同报文标识号-->
+            <InstrId>{{BatchId}}</InstrId>
+            <!--批次号，新增by liuql，没有这个字段，网关校验会失败-->
+        </PmtId>
+        <PmtTpInf>
+            <SvcLvl>
+                <Prtry>TT01</Prtry>
+                <!--支付方式TT00:普通汇款；TT01:扫码支付；TT02:碰一碰支付 禁止中文-->
+
+            </SvcLvl>
+            <CtgyPurp>
+                <Prtry>223</Prtry>
+                <!--业务类型编码 汇兑C200、投资理财C201、网络购物C202、商旅服务C203、缴费C204、慈善捐款C205、贷款还款C206、交易退款C208、实时代付C209、其他C210-->
+
+            </CtgyPurp>
+        </PmtTpInf>
+        <IntrBkSttlmAmt Ccy="CNY">1111.11</IntrBkSttlmAmt>
+        <!--货币符号、结算金额-->
+        <ChrgBr>DEBT</ChrgBr>
+        <!--固定填写DEBT-->
+        <InstgAgt>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>C1010211000012</MmbId>
+                    <!--付款运营机构-->
+
+                </ClrSysMmbId>
+                <LEI>LEI-C1010211000012</LEI>
+            </FinInstnId>
+            <BrnchId>
+                <Id>C1010211000012</Id>
+                <LEI>LEI-C1010211000012</LEI>
+            </BrnchId>
+        </InstgAgt>
+        <InstdAgt>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>C1010511003703</MmbId>
+                    <!--收款运营机构-->
+
+                </ClrSysMmbId>
+                <LEI>LEI-C1010511003703</LEI>
+            </FinInstnId>
+            <BrnchId>
+                <Id>C1010511003703</Id>
+                <LEI>LEI-C1010511003703</LEI>
+            </BrnchId>
+        </InstdAgt>
+        <Dbtr>
+            <Nm>付款姓名</Nm><!--付款姓名-->
+        </Dbtr>
+        <DbtrAcct>
+            <Id>
+                <Othr>
+                    <Id>0021000000122282</Id>
+                    <!--付款人钱包ID-->
+                    <SchmeNm>
+                        <Prtry>WL01</Prtry>
+                        <!--付款人钱包等级-->
+
+                    </SchmeNm>
+                </Othr>
+            </Id>
+            <Tp>
+                <Prtry>WT01</Prtry>
+                <!--付款人钱包类型-->
+
+            </Tp>
+            <Nm>付款钱包昵称</Nm><!--付款钱包昵称-->
+            <DC>
+                <Id>DC</Id>
+                <!--数字货币-->
+
+            </DC>
+        </DbtrAcct>
+        <Cdtr>
+            <Nm>收款姓名</Nm><!--收款姓名-->
+        </Cdtr>
+        <CdtrAcct>
+            <Id>
+                <Othr>
+                    <Id>0021000000122281</Id>
+                    <!--收款人钱包ID-->
+                    <SchmeNm>
+                        <Prtry>WL01</Prtry>
+                        <!--收款人钱包等级-->
+
+                    </SchmeNm>
+                </Othr>
+            </Id>
+            <Tp>
+                <Prtry>WT01</Prtry>
+                <!--收款人钱包类型-->
+
+            </Tp>
+            <Nm>收款钱包昵称</Nm><!--收款钱包昵称-->
+        </CdtrAcct>
+        <Purp>
+            <Prtry>00600</Prtry>
+            <!--业务种类编码 00600 – 保险费-->
+
+        </Purp>
+        <RmtInf>
+            <Ustrd>/Postscript/无</Ustrd>
+            <Ustrd>/Reason/111</Ustrd>
+            <Ustrd>/ParameterId/1111</Ustrd>
+            <Ustrd>/SndChnlSys/DCEP</Ustrd>
+            <Ustrd>/RcvChnlSys/MCBS</Ustrd>
+        </RmtInf>
+    </CdtTrfTxInf>
+</FIToFICstmrCdtTrf>

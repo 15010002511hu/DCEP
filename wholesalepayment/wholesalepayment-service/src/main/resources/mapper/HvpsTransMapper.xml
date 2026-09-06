@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.HvpsTransMapper">
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.HvpsTransDO">
+    <id column="hvps_msg_id" jdbcType="CHAR" property="hvpsMsgId" />
+    <id column="hvps_send_pty" jdbcType="CHAR" property="hvpsSendPty" />
+    <result column="hvps_msg_tp" jdbcType="CHAR" property="hvpsMsgTp" />
+    <result column="msg_id" jdbcType="CHAR" property="msgId" />
+    <result column="end_to_end_Id" jdbcType="VARCHAR" property="endToEndId" />
+    <result column="snd_dt" jdbcType="CHAR" property="sndDt" />
+    <result column="biz_tp" jdbcType="CHAR" property="bizTp" />
+    <result column="biz_kind" jdbcType="CHAR" property="bizKind" />
+    <result column="dbtr_clr_pty_id" jdbcType="CHAR" property="dbtrClrPtyId" />
+    <result column="dbtr_pty_id" jdbcType="CHAR" property="dbtrPtyId" />
+    <result column="cdtr_clr_pty_id" jdbcType="CHAR" property="cdtrClrPtyId" />
+    <result column="cdtr_pty_id" jdbcType="CHAR" property="cdtrPtyId" />
+    <result column="currency" jdbcType="CHAR" property="currency" />
+    <result column="sttlm_amt" jdbcType="BIGINT" property="sttlmAmt" />
+    <result column="sttlm_dt" jdbcType="CHAR" property="sttlmDt" />
+    <result column="biz_sts" jdbcType="CHAR" property="bizSts" />
+    <result column="biz_prc_cd" jdbcType="CHAR" property="bizPrcCd" />
+    <result column="biz_prc_inf" jdbcType="VARCHAR" property="bizPrcInf" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <sql id="all_columns">
+    hvps_msg_id, hvps_send_pty, hvps_msg_tp, msg_id, end_to_end_Id, snd_dt, biz_tp,
+    biz_kind, dbtr_clr_pty_id, dbtr_pty_id, cdtr_clr_pty_id, cdtr_pty_id, currency, sttlm_amt,
+    sttlm_dt, biz_sts, biz_prc_cd, biz_prc_inf, gmt_create, gmt_modified
+  </sql>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.HvpsTransDO">
+    insert into hvps_trans (hvps_msg_id, hvps_send_pty, hvps_msg_tp,
+      msg_id, end_to_end_Id, snd_dt, 
+      biz_tp, biz_kind, dbtr_clr_pty_id, 
+      dbtr_pty_id, cdtr_clr_pty_id, cdtr_pty_id, 
+      currency, sttlm_amt, sttlm_dt, 
+      biz_sts, biz_prc_cd, biz_prc_inf, 
+      gmt_create, gmt_modified)
+    values (#{hvpsMsgId,jdbcType=CHAR}, #{hvpsSendPty,jdbcType=CHAR}, #{hvpsMsgTp,jdbcType=CHAR}, 
+      #{msgId,jdbcType=CHAR}, #{endToEndId,jdbcType=VARCHAR}, #{sndDt,jdbcType=CHAR}, 
+      #{bizTp,jdbcType=CHAR}, #{bizKind,jdbcType=CHAR}, #{dbtrClrPtyId,jdbcType=CHAR}, 
+      #{dbtrPtyId,jdbcType=CHAR}, #{cdtrClrPtyId,jdbcType=CHAR}, #{cdtrPtyId,jdbcType=CHAR}, 
+      #{currency,jdbcType=CHAR}, #{sttlmAmt,jdbcType=BIGINT}, #{sttlmDt,jdbcType=CHAR}, 
+      #{bizSts,jdbcType=CHAR}, #{bizPrcCd,jdbcType=CHAR}, #{bizPrcInf,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.HvpsTransDO">
+    update hvps_trans
+    set hvps_msg_tp = #{hvpsMsgTp,jdbcType=CHAR},
+      msg_id = #{msgId,jdbcType=CHAR},
+      end_to_end_Id = #{endToEndId,jdbcType=VARCHAR},
+      snd_dt = #{sndDt,jdbcType=CHAR},
+      biz_tp = #{bizTp,jdbcType=CHAR},
+      biz_kind = #{bizKind,jdbcType=CHAR},
+      dbtr_clr_pty_id = #{dbtrClrPtyId,jdbcType=CHAR},
+      dbtr_pty_id = #{dbtrPtyId,jdbcType=CHAR},
+      cdtr_clr_pty_id = #{cdtrClrPtyId,jdbcType=CHAR},
+      cdtr_pty_id = #{cdtrPtyId,jdbcType=CHAR},
+      currency = #{currency,jdbcType=CHAR},
+      sttlm_amt = #{sttlmAmt,jdbcType=BIGINT},
+      sttlm_dt = #{sttlmDt,jdbcType=CHAR},
+      biz_sts = #{bizSts,jdbcType=CHAR},
+      biz_prc_cd = #{bizPrcCd,jdbcType=CHAR},
+      biz_prc_inf = #{bizPrcInf,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where hvps_msg_id = #{hvpsMsgId,jdbcType=CHAR}
+      and hvps_send_pty = #{hvpsSendPty,jdbcType=CHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.HvpsTransDO" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from hvps_trans
+    where hvps_msg_id = #{hvpsMsgId,jdbcType=CHAR}
+      and hvps_send_pty = #{hvpsSendPty,jdbcType=CHAR}
+  </select>
+
+  <select id="selectByMsgId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from hvps_trans
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </select>
+
+  <update id="updateBizSts">
+    update hvps_trans
+    set biz_sts  = #{hvpsTransDO.bizSts, jdbcType=VARCHAR},
+        biz_prc_cd = #{hvpsTransDO.bizPrcCd, jdbcType=VARCHAR},
+        biz_prc_inf = #{hvpsTransDO.bizPrcInf, jdbcType=VARCHAR},
+        sttlm_dt = #{hvpsTransDO.sttlmDt, jdbcType=VARCHAR},
+        gmt_modified = #{hvpsTransDO.gmtModified, jdbcType=TIMESTAMP}
+    where hvps_msg_id = #{orgnlHvpsTransDO.hvpsMsgId, jdbcType=VARCHAR}
+      and hvps_send_pty = #{orgnlHvpsTransDO.hvpsSendPty, jdbcType=VARCHAR}
+      and biz_sts = #{orgnlHvpsTransDO.bizSts, jdbcType=VARCHAR}
+  </update>
+
+</mapper>

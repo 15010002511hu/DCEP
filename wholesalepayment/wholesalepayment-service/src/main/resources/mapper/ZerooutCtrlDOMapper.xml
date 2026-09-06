@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.ZerooutCtrlDOMapper">
+
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.ZerooutCtrlDO">
+    <id column="msg_id" jdbcType="CHAR" property="msgId" />
+    <result column="sys_dt" jdbcType="CHAR" property="sysDt" />
+    <result column="sys_id" jdbcType="VARCHAR" property="sysId" />
+    <result column="cur_sys_flg" jdbcType="CHAR" property="curSysFlg" />
+    <result column="prc_sts" jdbcType="VARCHAR" property="prcSts" />
+    <result column="actg_sts" jdbcType="CHAR" property="actgSts" />
+    <result column="document" jdbcType="VARCHAR" property="document" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zeroout_ctrl
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.ZerooutCtrlDO">
+    insert into zeroout_ctrl (msg_id, sys_dt, sys_id, 
+      cur_sys_flg, prc_sts, actg_sts, 
+      document, task_id, gmt_create, gmt_modified
+      )
+    values (#{msgId,jdbcType=CHAR}, #{sysDt,jdbcType=CHAR}, #{sysId,jdbcType=VARCHAR}, 
+      #{curSysFlg,jdbcType=CHAR}, #{prcSts,jdbcType=VARCHAR}, #{actgSts,jdbcType=CHAR}, 
+      #{document,jdbcType=VARCHAR}, #{taskId,jdbcType=CHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.ZerooutCtrlDO">
+    update zeroout_ctrl
+    set sys_dt = #{sysDt,jdbcType=CHAR},
+      sys_id = #{sysId,jdbcType=VARCHAR},
+      cur_sys_flg = #{curSysFlg,jdbcType=CHAR},
+      prc_sts = #{prcSts,jdbcType=VARCHAR},
+      actg_sts = #{actgSts,jdbcType=CHAR},
+      document = #{document,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=CHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select msg_id, sys_dt, sys_id, cur_sys_flg, prc_sts, actg_sts, document, task_id, gmt_create,
+    gmt_modified
+    from zeroout_ctrl
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select msg_id, sys_dt, sys_id, cur_sys_flg, prc_sts, actg_sts, document, task_id, gmt_create,
+    gmt_modified
+    from zeroout_ctrl
+  </select>
+
+  <select id="selecPrcSts" parameterType="map" resultMap="BaseResultMap">
+    select prc_sts
+    from zeroout_ctrl
+    where sys_dt= #{sysDt,jdbcType=CHAR}
+      and sys_id= #{sysId,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectByTaskId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select msg_id, sys_dt, sys_id, cur_sys_flg, prc_sts, actg_sts, document, task_id, gmt_create, gmt_modified
+    from zeroout_ctrl
+    where task_id= #{taskId,jdbcType=CHAR}
+  </select>
+
+  <select id="selectBySysDtId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select msg_id, sys_dt, sys_id, cur_sys_flg, prc_sts, actg_sts, document, task_id, gmt_create, gmt_modified
+    from zeroout_ctrl
+    where sys_dt= #{sysDt,jdbcType=CHAR}
+      and sys_id= #{sysId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://dubbo.apache.org/schema/dubbo
+    http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.FundingService" interface="com.dcep.dips.wholesalepayment.api.FundingService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="increase" validation="false" retries="0"/>
+        <dubbo:method name="hvpsReport" validation="false" retries="0"/>
+        <dubbo:method name="zeroOutApply" validation="false" retries="0"/>
+        <dubbo:method name="decrease" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.ChainService" interface="com.dcep.dips.wholesalepayment.api.ChainService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="onChainAdjust" validation="true" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.ChainZeroOutService" interface="com.dcep.dips.wholesalepayment.api.ChainZeroOutService" check="false" timeout="3600000" retries="0" >
+        <dubbo:method name="report" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.MbridgeZeroOutService" interface="com.dcep.dips.wholesalepayment.api.MbridgeZeroOutService" check="false" timeout="3600000" retries="0" >
+        <dubbo:method name="report" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.DcepSndMbridgeService" interface="com.dcep.dips.wholesalepayment.api.DcepSndMbridgeService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="prepare" validation="false" retries="0"/>
+        <dubbo:method name="finish" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.McbsSndMbridgeService" interface="com.dcep.dips.wholesalepayment.api.McbsSndMbridgeService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="process" validation="false" retries="0"/>
+        <dubbo:method name="querySts" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.OnChainService" interface="com.dcep.dips.wholesalepayment.api.OnChainService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="chainAccounting" validation="false" retries="0"/>
+        <dubbo:method name="mbridgeAccounting" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.PaymentService" interface="com.dcep.dips.wholesalepayment.api.PaymentService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="dbtrSettle" validation="false" retries="0"/>
+        <dubbo:method name="cdtrSettle" validation="false" retries="0"/>
+        <dubbo:method name="orderConfirm" validation="false" retries="0"/>
+        <dubbo:method name="resultReport" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.QueryService" interface="com.dcep.dips.wholesalepayment.api.QueryService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="querySts" validation="false" retries="0"/>
+        <dubbo:method name="queryDtl" validation="false" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.ReverseService" interface="com.dcep.dips.wholesalepayment.api.ReverseService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="process" validation="true" retries="0"/>
+    </dubbo:reference>
+    <dubbo:reference  id="com.dcep.dips.wholesalepayment.api.SummaryVerifyService" interface="com.dcep.dips.wholesalepayment.api.SummaryVerifyService" check="false" timeout="3000" retries="0" >
+        <dubbo:method name="queryPtySummaryInfo" validation="true" retries="0"/>
+        <dubbo:method name="querySysSummaryInfo" validation="true" retries="0"/>
+    </dubbo:reference>
+</beans>

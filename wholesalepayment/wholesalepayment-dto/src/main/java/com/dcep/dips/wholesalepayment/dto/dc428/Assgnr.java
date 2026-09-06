@@ -1,0 +1,28 @@
+package com.dcep.dips.wholesalepayment.dto.dc428;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+/**
+ * 组件--Assigner
+ * @Author luteng
+ * @date 2025-10-21 17:29:48
+ */
+@Data
+@AllArgsConstructor
+public class Assgnr implements Serializable {
+    /**
+     * 发起参与机构
+     */
+    @JacksonXmlProperty(
+            localName = "Agt"
+    )
+    @NotNull
+    @Valid
+    private Agt agt;
+}

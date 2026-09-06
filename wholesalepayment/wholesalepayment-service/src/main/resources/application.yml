@@ -1,0 +1,119 @@
+ldc:
+  zmode: true
+
+#开发环境服务启动默认端口号
+server:
+  port: 8081
+#spring boot 开发环境依赖的配置文件
+spring:
+  application:
+    name: wholesalepayment
+
+#nacos:
+#  config:
+#    #    server-addr: 172.19.68.17:8848,172.19.68.18:8848,172.19.68.19:8848
+#    server-addr: 172.19.68.17:8848
+#    namespace: 1711ba14-b569-4dda-baa2-892508733a01
+#    username: szdev_nacos
+#    password: hVPHCDzutfL6m
+
+# 统一连stable的配置中心
+nacos:
+  config:
+    server-addr: 172.21.53.98:8848,172.21.53.99:8848,172.21.53.100:8848
+    namespace: 1711ba14-b569-4dda-baa2-892508733a01
+    username: t2_nacos
+    password: z8DTexgG2v3TW
+
+# default-executor-type: 本工程中有insert之后获取自增主键的处理逻辑，BATCH下获取不到，只能设为SIMPLE或REUSE。
+mybatis:
+  mapperLocations: classpath:mapper/*Mapper.xml
+  configuration:
+    default-executor-type: SIMPLE
+    use-actual-param-name: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  pageSizeZero: false
+  params: count=countSql
+
+dubbo:
+  provider:
+    #超时时间
+    timeout: 15000
+    #重试次数,如果重试次数大于0,调用方必须保证幂等性。
+    retries: 0
+    #tag: DEV-CZ01-001_lql_001-A
+    tag: STABLE-GZ01-A
+    check: false
+  consumer:
+    retries: 0
+    check: false
+  application:
+    id: ${spring.application.name}
+    name: ${spring.application.name}
+    #dubbo动态控制、查询服务
+    qos:
+    qosPort: 22222
+    qosEnable: true
+  #dubbo的包扫描，针对@DubboService @DubboReference注解
+  scan:
+    basePackages: com.dcep.dips.wholesalepayment
+  #服务注册中心配置
+  registry:
+    id: nacos
+    protocol: nacos
+    address: 172.19.68.20:8858,172.19.68.22:8858,172.19.68.23:8858?username=szdev_nacos&password=hVPHCDzutfL6m
+    #address: registry.nacos.testpbcdci:8858?username=sit_nacos&password=bJmXDY8w4y@PTk
+    use-as-metadata-center: false
+    use-as-config-center: false
+  #服务协议配置
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20882
+    #缺省值 all,表示所有消息都派发到线程池，包括请求、响应、连接事件、断开事件、心跳等
+    dispatcher: all
+    #缺省值 fixed，表示固定大小线程池，启动时建立线程，不关闭，一直持有。
+    #可选值cached，缓存线程池，空闲一分钟自动删除，需要时重建。
+    threadpool: fixed
+    #服务线程池大小，默认值200
+    threads: 4
+    iothreads: 1
+    #开发环境临时关闭心跳
+    heartbeat: 0
+
+#infocache配置
+infocache:
+  cachetype: org_cache, ownership_cache
+
+#错误码配置
+errorcode-map:
+  dcep:
+    DCEPO0001:
+      mcbsCode: '30O0001'
+      mcbsMsg: 'repeating business'
+    DCEPO0006:
+      mcbsCode: '30O0004'
+      mcbsMsg: 'unmatch original operation'
+    DCEPO3006:
+      mcbsCode: '30O3001'
+      mcbsMsg: 'the payer institution is faulty'
+    DCEPO3013:
+      mcbsCode: '30O3002'
+      mcbsMsg: 'the payee institution is faulty'
+    DCEPO3018:
+      mcbsCode: '30O3003'
+      mcbsMsg: 'the sending institution is faulty'
+    DCEPO3022:
+      mcbsCode: '30O3004'
+      mcbsMsg: 'the receiving institution is faulty'
+    DCEPO1036:
+      mcbsCode: '30O6014'
+      mcbsMsg: 'createDateTime unmatch cerrent system date'
+    DCEPS5103:
+      mcbsCode: '30S5103'
+      mcbsMsg: 'the primary key is duplicated'

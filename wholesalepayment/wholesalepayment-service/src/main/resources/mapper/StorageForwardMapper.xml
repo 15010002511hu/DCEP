@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.StorageForwardMapper">
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    <id column="msg_id" jdbcType="CHAR" property="msgId" />
+    <id column="msg_tp" jdbcType="CHAR" property="msgTp" />
+    <result column="storg_tp" jdbcType="CHAR" property="storgTp" />
+    <result column="storg_inf" jdbcType="VARCHAR" property="storgInf" />
+    <result column="lock_sts" jdbcType="CHAR" property="lockSts" />
+    <result column="receive_inst" jdbcType="CHAR" property="receiveInst" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="interval_second" jdbcType="INTEGER" property="intervalSecond" />
+    <result column="process_timeout" jdbcType="TIMESTAMP" property="processTimeout" />
+    <result column="env_info" jdbcType="VARCHAR" property="envInfo" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    insert into storage_forward (msg_id, msg_tp, storg_tp,
+      storg_inf, lock_sts, receive_inst, 
+      send_time, interval_second, process_timeout, 
+      env_info, gmt_create, gmt_modified
+      )
+    values (#{msgId,jdbcType=CHAR}, #{msgTp,jdbcType=CHAR}, #{storgTp,jdbcType=CHAR}, 
+      #{storgInf,jdbcType=VARCHAR}, #{lockSts,jdbcType=CHAR}, #{receiveInst,jdbcType=CHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{intervalSecond,jdbcType=INTEGER}, #{processTimeout,jdbcType=TIMESTAMP}, 
+      #{envInfo,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    update storage_forward
+    set storg_tp = #{storgTp,jdbcType=CHAR},
+      storg_inf = #{storgInf,jdbcType=VARCHAR},
+      lock_sts = #{lockSts,jdbcType=CHAR},
+      receive_inst = #{receiveInst,jdbcType=CHAR},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      interval_second = #{intervalSecond,jdbcType=INTEGER},
+      process_timeout = #{processTimeout,jdbcType=TIMESTAMP},
+      env_info = #{envInfo,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select msg_id, msg_tp, storg_tp, storg_inf, lock_sts, receive_inst, send_time, interval_second,
+    process_timeout, env_info, gmt_create, gmt_modified
+    from storage_forward
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    delete from storage_forward
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+  </delete>
+
+  <update id="mockDelete" parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    update storage_forward
+    set
+      lock_sts = '2',
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+  </update>
+  <update id="updateForUnLock" parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    update storage_forward
+    set
+        lock_sts = '0',
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+  </update>
+  <select id="selectForProcess" resultMap="BaseResultMap">
+    select
+    msg_id,
+    msg_tp,
+    storg_tp,
+    storg_inf,
+    lock_sts,
+    receive_inst,
+    send_time,
+    interval_second,
+    process_timeout,
+    env_info,
+    gmt_create,
+    gmt_modified
+    from
+    storage_forward
+    where lock_sts = '0'
+    and
+    (UNIX_TIMESTAMP(#{sysTime,jdbcType=TIMESTAMP})-
+    UNIX_TIMESTAMP(send_time) >
+    interval_second)
+    <if test='envInfo == "PRE"'>
+      and env_info = #{envInfo,jdbcType=VARCHAR}
+    </if>
+    <if test='envInfo == "PROD"'>
+      and (env_info = #{envInfo,jdbcType=VARCHAR} or env_info is null)
+    </if>
+    order by gmt_create
+    limit 100
+  </select>
+  <update id="updateUuid"
+          parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    update storage_forward
+    set
+      lock_sts = '1',
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      process_timeout = #{processTimeout,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where
+      msg_id = #{msgId,jdbcType=CHAR}
+      and lock_sts =
+          '0'
+  </update>
+
+  <update id="updateUuidAndTime"
+          parameterType="com.dcep.dips.wholesalepayment.dal.model.StorageForwardDO">
+    update storage_forward
+    set
+      lock_sts = '0',
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where
+      msg_id = #{msgId,jdbcType=CHAR}
+      and lock_sts =
+          '1'
+  </update>
+  <select id="selectUnFinishedForFinal" resultMap="BaseResultMap">
+    select
+    msg_id,
+    msg_tp,
+    storg_tp,
+    storg_inf,
+    lock_sts,
+    receive_inst,
+    send_time,
+    interval_second,
+    process_timeout,
+    env_info,
+    gmt_create,
+    gmt_modified
+    from
+    storage_forward
+    where lock_sts = '1'
+    and
+    (UNIX_TIMESTAMP(#{sysTime,jdbcType=TIMESTAMP})-
+    UNIX_TIMESTAMP(send_time) >
+    65)
+    <if test='envInfo == "PRE"'>
+      and env_info = #{envInfo,jdbcType=VARCHAR}
+    </if>
+    <if test='envInfo == "PROD"'>
+      and (env_info = #{envInfo,jdbcType=VARCHAR} or env_info is null)
+    </if>
+    limit 100
+  </select>
+</mapper>

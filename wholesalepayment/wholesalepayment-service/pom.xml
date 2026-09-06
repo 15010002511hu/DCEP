@@ -1,0 +1,149 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.dcep.dips</groupId>
+    <artifactId>wholesalepayment</artifactId>
+    <version>${revision}</version>
+  </parent>
+  <artifactId>wholesalepayment-service</artifactId>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.dcep.dips</groupId>
+      <artifactId>wholesalepayment-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.dcep.dips</groupId>
+      <artifactId>wholesalepayment-dto</artifactId>
+    </dependency>
+    <!--时序控制 -->
+    <dependency>
+      <groupId>com.dcep.dips</groupId>
+      <artifactId>operatingcontrol-spi</artifactId>
+    </dependency>
+    <!--结算钱包api -->
+    <dependency>
+      <groupId>com.dcep.dips</groupId>
+      <artifactId>acctrans-api</artifactId>
+    </dependency>
+
+    <!-- 信息缓存api -->
+    <dependency>
+      <groupId>com.dcep.infocache</groupId>
+      <artifactId>infocache-api</artifactId>
+    </dependency>
+
+    <!-- 保证金api -->
+    <dependency>
+      <groupId>com.dcep</groupId>
+      <artifactId>dcclearingcenter-api</artifactId>
+    </dependency>
+
+    <!-- 网管api -->
+    <dependency>
+      <groupId>com.dcep.supergw</groupId>
+      <artifactId>supergw-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.dcep</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.dcep</groupId>
+      <artifactId>dds</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.dcep</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+
+    <!-- kafka -->
+    <dependency>
+      <groupId>org.springframework.kafka</groupId>
+      <artifactId>spring-kafka</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>com.dcep.dips</groupId>
+      <artifactId>dips-spring-boot-starter-log4j2</artifactId>
+    </dependency>
+
+    <!-- 货币桥网关 -->
+      <dependency>
+          <groupId>com.dcep.gateway</groupId>
+          <artifactId>mcbdc-gateway-api</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>com.dcep.gateway</groupId>
+          <artifactId>mcbdc-gateway-dto</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>com.dcep.gateway</groupId>
+          <artifactId>mcbdc-gateway-mcbs-dto</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>com.dcep</groupId>
+      <artifactId>bcsp-core-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-inline</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Package as an executable jar -->
+  <build>
+    <finalName>wholesalepayment</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <!-- 不部署 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>
+          src/main/resources/
+        </directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+</project>

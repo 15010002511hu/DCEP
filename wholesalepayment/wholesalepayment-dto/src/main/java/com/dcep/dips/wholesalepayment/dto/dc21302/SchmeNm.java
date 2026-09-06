@@ -1,0 +1,38 @@
+/**
+ * DCEP.com.cn Inc.
+ * Copyright (c) 2018-2019 All Rights Reserved.
+ */
+package com.dcep.dips.wholesalepayment.dto.dc21302;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import java.io.Serializable;
+
+/**
+ * 
+ * @author sunxiaofeng
+ *
+ */
+@JacksonXmlRootElement(localName = "SchmeNm")
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class SchmeNm implements Serializable {
+	/**  */
+	private static final long serialVersionUID = 2107395519742006794L;
+	/*
+	 * 付款人钱包等级/收款人钱包等级
+	 */
+	@JacksonXmlProperty(localName = "Prtry")
+	@NotBlank
+	@Pattern(regexp = "WL01||WL02||WL03||WL04||WL05")
+	@Pattern(regexp = "[^\u4e00-\u9fa5]*", message = "禁止中文")
+	private String prtry;
+
+}

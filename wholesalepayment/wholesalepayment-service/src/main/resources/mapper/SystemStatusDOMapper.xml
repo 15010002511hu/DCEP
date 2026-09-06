@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.SystemStatusDOMapper">
+
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.SystemStatusDO">
+    <id column="sys_cd" jdbcType="VARCHAR" property="sysCd" />
+    <result column="svc_tm_tp" jdbcType="VARCHAR" property="svcTmTp" />
+    <result column="cur_sys_flg" jdbcType="CHAR" property="curSysFlg" />
+    <result column="cur_sys_dt" jdbcType="VARCHAR" property="curSysDt" />
+    <result column="start_tm" jdbcType="TIMESTAMP" property="startTm" />
+    <result column="end_tm" jdbcType="TIMESTAMP" property="endTm" />
+    <result column="pre_sys_dt" jdbcType="VARCHAR" property="preSysDt" />
+    <result column="next_sys_dt" jdbcType="VARCHAR" property="nextSysDt" />
+    <result column="cur_sys_sts" jdbcType="VARCHAR" property="curSysSts" />
+    <result column="pre_sys_sts" jdbcType="VARCHAR" property="preSysSts" />
+    <result column="eod_sts" jdbcType="CHAR" property="eodSts" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from system_status
+    where sys_cd = #{sysCd,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.SystemStatusDO">
+    insert into system_status (sys_cd, svc_tm_tp, cur_sys_flg,
+      cur_sys_dt, start_tm, end_tm, 
+      pre_sys_dt, next_sys_dt, cur_sys_sts, 
+      pre_sys_sts, eod_sts, gmt_create, 
+      gmt_modified)
+    values (#{sysCd,jdbcType=VARCHAR}, #{svcTmTp,jdbcType=VARCHAR}, #{curSysFlg,jdbcType=CHAR}, 
+      #{curSysDt,jdbcType=VARCHAR}, #{startTm,jdbcType=TIMESTAMP}, #{endTm,jdbcType=TIMESTAMP}, 
+      #{preSysDt,jdbcType=VARCHAR}, #{nextSysDt,jdbcType=VARCHAR}, #{curSysSts,jdbcType=VARCHAR}, 
+      #{preSysSts,jdbcType=VARCHAR}, #{eodSts,jdbcType=CHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.SystemStatusDO">
+    update system_status
+    set svc_tm_tp = #{svcTmTp,jdbcType=VARCHAR},
+      cur_sys_flg = #{curSysFlg,jdbcType=CHAR},
+      cur_sys_dt = #{curSysDt,jdbcType=VARCHAR},
+      start_tm = #{startTm,jdbcType=TIMESTAMP},
+      end_tm = #{endTm,jdbcType=TIMESTAMP},
+      pre_sys_dt = #{preSysDt,jdbcType=VARCHAR},
+      next_sys_dt = #{nextSysDt,jdbcType=VARCHAR},
+      cur_sys_sts = #{curSysSts,jdbcType=VARCHAR},
+      pre_sys_sts = #{preSysSts,jdbcType=VARCHAR},
+      eod_sts = #{eodSts,jdbcType=CHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where sys_cd = #{sysCd,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select sys_cd, svc_tm_tp, cur_sys_flg, cur_sys_dt, start_tm, end_tm, pre_sys_dt,
+    next_sys_dt, cur_sys_sts, pre_sys_sts, eod_sts, gmt_create, gmt_modified
+    from system_status
+    where sys_cd = #{sysCd,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select sys_cd, svc_tm_tp, cur_sys_flg, cur_sys_dt, start_tm, end_tm, pre_sys_dt,
+    next_sys_dt, cur_sys_sts, pre_sys_sts, eod_sts, gmt_create, gmt_modified
+    from system_status
+  </select>
+
+  <select id="selectCurSysDt" parameterType="java.lang.String" resultType="java.lang.String">
+    select cur_sys_dt
+    from system_status
+    where sys_cd= #{sysCd,jdbcType=CHAR}
+  </select>
+</mapper>

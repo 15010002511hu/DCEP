@@ -1,0 +1,44 @@
+{
+  "soapHeader": {
+    "ver": "01",
+    "sndDtTm": "2025-10-14T18:02:57",
+    "msgTp": "dcep.200.001.01",
+    "msgSN": "202510140011200832265778890630000001",
+    "sender": "G4001011000013",
+    "senderLEI": "655600W2U6RNTJMHXA86",
+    "receiver": "C1010211000012"
+  },
+  "soapBody": {
+    "t": {
+      "grpHdr": {
+        "msgId": "20251014001120083226577889063000",
+        "creDtTm": "2025-10-14T18:02:57"
+      },
+      "txInfAndSts": {
+        "orgnlGrpInf": {
+          "orgnlMsgId": "20251014002120365100384538325000",
+          "orgnlMsgNmId": "dcep.203.010.01"
+        },
+        "txSts": "PR01",
+        "stsRsnInf": {
+          "rsn": {
+            "prtry": "DCEPI0000"
+          },
+          "addtlInf": "处理成功"
+        },
+        "instgAgt": {
+          "finInstnId": "G4001011000013"
+        },
+        "instdAgt": {
+          "finInstnId": "C1010211000012"
+        },
+        "orgnlTxRef": {
+          "intrBkSttlmAmt": {
+            "ccy": "CNY",
+            "value": "1111.11"
+          }
+        }
+      }
+    }
+  }
+}

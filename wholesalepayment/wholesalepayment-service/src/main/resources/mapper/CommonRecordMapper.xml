@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.CommonRecordMapper">
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.CommonRecordDO">
+    <id column="msg_id" jdbcType="CHAR" property="msgId" />
+    <id column="msg_tp" jdbcType="CHAR" property="msgTp" />
+    <id column="partition_time" jdbcType="TIMESTAMP" property="partitionTime" />
+    <result column="org_msg_id" jdbcType="CHAR" property="orgMsgId" />
+    <result column="org_msg_tp" jdbcType="CHAR" property="orgMsgTp" />
+    <result column="document" jdbcType="VARCHAR" property="document" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonRecordDO">
+    insert into common_record (msg_id, msg_tp, partition_time,
+      org_msg_id, org_msg_tp, document, 
+      gmt_create, gmt_modified)
+    values (#{msgId,jdbcType=CHAR}, #{msgTp,jdbcType=CHAR}, #{partitionTime,jdbcType=TIMESTAMP}, 
+      #{orgMsgId,jdbcType=CHAR}, #{orgMsgTp,jdbcType=CHAR}, #{document,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select msg_id, msg_tp, partition_time, org_msg_id, org_msg_tp, document, gmt_create,
+           gmt_modified
+    from common_record
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </select>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.CommonRecordDO">
+    update common_record
+    set org_msg_id = #{orgMsgId,jdbcType=CHAR},
+      org_msg_tp = #{orgMsgTp,jdbcType=CHAR},
+      document = #{document,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+      and msg_tp = #{msgTp,jdbcType=CHAR}
+      and partition_time = #{partitionTime,jdbcType=TIMESTAMP}
+  </update>
+
+</mapper>

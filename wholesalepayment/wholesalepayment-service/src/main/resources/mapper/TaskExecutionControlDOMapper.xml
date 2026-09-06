@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.TaskExecutionControlDOMapper">
+
+    <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.TaskExecutionControlDO">
+        <id column="task_id" jdbcType="VARCHAR" property="taskId" />
+        <result column="task_cd" jdbcType="VARCHAR" property="taskCd" />
+        <result column="task_nm" jdbcType="VARCHAR" property="taskNm" />
+        <result column="task_sts" jdbcType="VARCHAR" property="taskSts" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="error_cd" jdbcType="VARCHAR" property="errorCd" />
+        <result column="error_msg" jdbcType="VARCHAR" property="errorMsg" />
+        <result column="memo" jdbcType="VARCHAR" property="memo" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    </resultMap>
+
+    <!-- 插入操作 -->
+    <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.TaskExecutionControlDO">
+        INSERT INTO task_execution_control (
+            task_id, task_cd, task_nm, task_sts, content, error_cd, error_msg, memo, gmt_create, gmt_modified
+        ) VALUES (
+                     #{taskId,jdbcType=VARCHAR}, #{taskCd,jdbcType=VARCHAR}, #{taskNm,jdbcType=VARCHAR}, #{taskSts,jdbcType=VARCHAR},
+                     #{content,jdbcType=VARCHAR}, #{errorCd,jdbcType=VARCHAR}, #{errorMsg,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},
+                     #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+                 )
+    </insert>
+
+    <!-- 更新操作 -->
+    <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.TaskExecutionControlDO">
+        UPDATE task_execution_control
+        SET
+            task_cd = #{taskCd,jdbcType=VARCHAR},
+            task_nm = #{taskNm,jdbcType=VARCHAR},
+            task_sts = #{taskSts,jdbcType=VARCHAR},
+            content = #{content,jdbcType=VARCHAR},
+            error_cd = #{errorCd,jdbcType=VARCHAR},
+            error_msg = #{errorMsg,jdbcType=VARCHAR},
+            memo = #{memo,jdbcType=VARCHAR},
+            gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+        WHERE task_id = #{taskId,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 删除操作 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM task_execution_control
+        WHERE task_id = #{taskId,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- 查询操作 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+            task_id, task_cd, task_nm, task_sts, content, error_cd, error_msg, memo, gmt_create, gmt_modified
+        FROM
+            task_execution_control
+        WHERE
+            task_id = #{taskId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            task_id, task_cd, task_nm, task_sts, content, error_cd, error_msg, memo, gmt_create, gmt_modified
+        FROM
+            task_execution_control
+    </select>
+</mapper>

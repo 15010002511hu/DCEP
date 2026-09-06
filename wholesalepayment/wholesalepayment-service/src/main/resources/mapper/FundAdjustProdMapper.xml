@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcep.dips.wholesalepayment.dal.mapper.FundAdjustProdMapper">
+  <resultMap id="CheckResultMap" type="com.dcep.dips.wholesalepayment.dto.check.FundAdjustInfDTO">
+    <result column="report_msg_id" jdbcType="CHAR" property="msgId" />
+    <result column="report_msg_tp" jdbcType="CHAR" property="msgTp" />
+    <result column="adjust_pty_id" jdbcType="CHAR" property="transPtyId" />
+    <result column="adjust_wlt_id" jdbcType="VARCHAR" property="walletId" />
+    <result column="adjust_amt" jdbcType="BIGINT" property="amount" />
+    <result column="adjust_tp" jdbcType="CHAR" property="operationType" />
+    <result column="biz_sts" jdbcType="CHAR" property="prcSts" />
+    <result column="hvps_send_pty" jdbcType="CHAR" property="orgnlSendPty" />
+    <result column="hvps_msg_id" jdbcType="CHAR" property="orgnlMsgId" />
+    <result column="hvps_msg_tp" jdbcType="CHAR" property="orgnlMsgTp" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap" type="com.dcep.dips.wholesalepayment.dal.model.FundAdjustProdDO">
+    <id column="msg_id" jdbcType="CHAR" property="msgId" />
+    <result column="msg_tp" jdbcType="CHAR" property="msgTp" />
+    <result column="report_msg_id" jdbcType="CHAR" property="reportMsgId" />
+    <result column="report_msg_tp" jdbcType="CHAR" property="reportMsgTp" />
+    <result column="sttlm_dt" jdbcType="CHAR" property="sttlmDt" />
+    <result column="send_pty_id" jdbcType="CHAR" property="sendPtyId" />
+    <result column="adjust_pty_id" jdbcType="CHAR" property="adjustPtyId" />
+    <result column="adjust_sys_id" jdbcType="VARCHAR" property="adjustSysId" />
+    <result column="adjust_wlt_id" jdbcType="VARCHAR" property="adjustWltId" />
+    <result column="adjust_tp" jdbcType="CHAR" property="adjustTp" />
+    <result column="adjust_amt" jdbcType="BIGINT" property="adjustAmt" />
+    <result column="currency" jdbcType="CHAR" property="currency" />
+    <result column="cdt_dbt_ind" jdbcType="CHAR" property="cdtDbtInd" />
+    <result column="biz_sts" jdbcType="CHAR" property="bizSts" />
+    <result column="biz_prc_cd" jdbcType="CHAR" property="bizPrcCd" />
+    <result column="biz_prc_inf" jdbcType="VARCHAR" property="bizPrcInf" />
+    <result column="biz_dt" jdbcType="CHAR" property="bizDt" />
+    <result column="account_balance" jdbcType="BIGINT" property="accountBalance" />
+    <result column="account_flag" jdbcType="CHAR" property="accountFlag" />
+    <result column="ci_limit" jdbcType="BIGINT" property="ciLimit" />
+    <result column="net_quota" jdbcType="BIGINT" property="netQuota" />
+    <result column="env_info" jdbcType="VARCHAR" property="envInfo" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
+  <sql id="all_columns">
+    msg_id, msg_tp, report_msg_id, report_msg_tp, sttlm_dt, send_pty_id, adjust_pty_id, adjust_sys_id,
+    adjust_wlt_id, adjust_tp, adjust_amt, currency, cdt_dbt_ind, biz_sts, biz_prc_cd,
+    biz_prc_inf, biz_dt, account_balance, account_flag, ci_limit, env_info, net_quota, gmt_create,
+    gmt_modified
+  </sql>
+
+  <insert id="insert" parameterType="com.dcep.dips.wholesalepayment.dal.model.FundAdjustProdDO">
+    insert into fund_adjust_prod (msg_id, msg_tp, report_msg_id,
+      report_msg_tp, sttlm_dt, send_pty_id, adjust_pty_id,
+      adjust_sys_id, adjust_wlt_id, adjust_tp, 
+      adjust_amt, currency, cdt_dbt_ind, 
+      biz_sts, biz_prc_cd, biz_prc_inf, 
+      biz_dt, account_balance, account_flag, 
+      ci_limit, net_quota, env_info, gmt_create,
+      gmt_modified)
+    values (#{msgId,jdbcType=CHAR}, #{msgTp,jdbcType=CHAR}, #{reportMsgId,jdbcType=CHAR}, 
+      #{reportMsgTp,jdbcType=CHAR}, #{sttlmDt,jdbcType=CHAR}, #{sendPtyId,jdbcType=CHAR}, #{adjustPtyId,jdbcType=CHAR},
+      #{adjustSysId,jdbcType=VARCHAR}, #{adjustWltId,jdbcType=VARCHAR}, #{adjustTp,jdbcType=CHAR}, 
+      #{adjustAmt,jdbcType=BIGINT}, #{currency,jdbcType=CHAR}, #{cdtDbtInd,jdbcType=CHAR}, 
+      #{bizSts,jdbcType=CHAR}, #{bizPrcCd,jdbcType=CHAR}, #{bizPrcInf,jdbcType=VARCHAR}, 
+      #{bizDt,jdbcType=CHAR}, #{accountBalance,jdbcType=BIGINT}, #{accountFlag,jdbcType=CHAR}, 
+      #{ciLimit,jdbcType=BIGINT}, #{netQuota,jdbcType=BIGINT}, #{envInfo,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.FundAdjustProdDO">
+    update fund_adjust_prod
+    set msg_tp = #{msgTp,jdbcType=CHAR},
+      report_msg_id = #{reportMsgId,jdbcType=CHAR},
+      report_msg_tp = #{reportMsgTp,jdbcType=CHAR},
+      sttlm_dt = #{sttlmDt,jdbcType=CHAR},
+      send_pty_id = #{sendPtyId,jdbcType=CHAR},
+      adjust_pty_id = #{adjustPtyId,jdbcType=CHAR},
+      adjust_sys_id = #{adjustSysId,jdbcType=VARCHAR},
+      adjust_wlt_id = #{adjustWltId,jdbcType=VARCHAR},
+      adjust_tp = #{adjustTp,jdbcType=CHAR},
+      adjust_amt = #{adjustAmt,jdbcType=BIGINT},
+      currency = #{currency,jdbcType=CHAR},
+      cdt_dbt_ind = #{cdtDbtInd,jdbcType=CHAR},
+      biz_sts = #{bizSts,jdbcType=CHAR},
+      biz_prc_cd = #{bizPrcCd,jdbcType=CHAR},
+      biz_prc_inf = #{bizPrcInf,jdbcType=VARCHAR},
+      biz_dt = #{bizDt,jdbcType=CHAR},
+      account_balance = #{accountBalance,jdbcType=BIGINT},
+      account_flag = #{accountFlag,jdbcType=CHAR},
+      ci_limit = #{ciLimit,jdbcType=BIGINT},
+      net_quota = #{netQuota,jdbcType=BIGINT},
+      env_info = #{envInfo,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="com.dcep.dips.wholesalepayment.dal.model.FundAdjustProdDO" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from fund_adjust_prod
+    where msg_id = #{msgId,jdbcType=CHAR}
+  </select>
+
+  <update id="updateBizSts">
+    update fund_adjust_prod
+    set biz_sts  = #{fundDO.bizSts, jdbcType=VARCHAR},
+        <if test="fundDO.sttlmDt != null and fundDO.sttlmDt != ''">
+          sttlm_dt = #{fundDO.sttlmDt, jdbcType=VARCHAR},
+        </if>
+        <if test="fundDO.bizPrcCd != null and fundDO.bizPrcCd != ''">
+          biz_prc_cd = #{fundDO.bizPrcCd, jdbcType=VARCHAR},
+        </if>
+        <if test="fundDO.bizPrcInf != null and fundDO.bizPrcInf != ''">
+          biz_prc_inf = #{fundDO.bizPrcInf, jdbcType=CHAR},
+        </if>
+        <if test="fundDO.adjustWltId != null and fundDO.adjustWltId != ''">
+          adjust_wlt_id = #{fundDO.adjustWltId,jdbcType=VARCHAR},
+        </if>
+        <if test="fundDO.accountBalance != null">
+          account_balance = #{fundDO.accountBalance,jdbcType=BIGINT},
+        </if>
+        <if test="fundDO.accountFlag != null and fundDO.accountFlag != ''">
+          account_flag = #{fundDO.accountFlag,jdbcType=VARCHAR},
+        </if>
+        <if test="fundDO.ciLimit != null">
+          ci_limit = #{fundDO.ciLimit,jdbcType=BIGINT},
+        </if>
+        <if test="fundDO.netQuota != null">
+          net_quota = #{fundDO.netQuota,jdbcType=BIGINT},
+        </if>
+        <if test="fundDO.gmtModified != null">
+          gmt_modified = #{fundDO.gmtModified, jdbcType=TIMESTAMP}
+        </if>
+    where msg_id  = #{orgnlFundDO.msgId, jdbcType=VARCHAR}
+      and biz_sts = #{orgnlFundDO.bizSts, jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectChainCheckInfo" resultMap="CheckResultMap">
+    select f.report_msg_id, f.report_msg_tp, f.adjust_pty_id, f.adjust_wlt_id, f.adjust_amt,
+           f.adjust_tp, f.biz_sts, h.hvps_send_pty, h.hvps_msg_id, h.hvps_msg_tp
+    from fund_adjust_prod f
+    inner join hvps_trans h on h.msg_id = f.msg_id
+    inner join accounting_instr a on a.msg_id = f.msg_id
+    where a.actg_dt = #{bookingDate,jdbcType=CHAR}
+    and a.orgnl_trans_id is not null
+    and f.biz_sts = 'PR10'
+  </select>
+
+  <select id="selectByAdjustPtyId" parameterType="map" resultMap="BaseResultMap">
+    select <include refid="all_columns"/>
+    from fund_adjust_prod
+    where adjust_pty_id = #{ptyId,jdbcType=VARCHAR}
+    and sttlm_dt = #{bookingDate,jdbcType=VARCHAR}
+    and biz_sts =#{bizSts,jdbcType=CHAR}
+  </select>
+</mapper>
